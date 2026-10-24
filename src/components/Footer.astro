@@ -1,0 +1,153 @@
+---
+import Logo from './Logo.astro';
+import PetalLines from './PetalLines.astro';
+import site from '../../content/site.json';
+import { t, url, other, pick, type Lang } from '../lib/i18n';
+import { categories } from '../lib/products';
+
+interface Props { lang: Lang; path: string }
+const { lang, path } = Astro.props;
+const d = t(lang);
+const year = new Date().getFullYear();
+const pages = ['about', 'products', 'quality', 'downloads', 'contact'] as const;
+---
+<footer class="site-footer on-dark">
+  <PetalLines class="site-footer__petals" />
+  <div class="wrap">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <Logo variant="white" class="site-footer__logo" />
+        <p class="site-footer__slogan">{d.home.hero.titleLines.join(' ')}</p>
+        <p class="site-footer__trust" lang="en"><strong>{d.common.builtOnTrust}</strong> {d.common.builtOnTrustSub}</p>
+      </div>
+
+      <nav class="site-footer__col" aria-label={d.footer.pages}>
+        <h2>{d.footer.pages}</h2>
+        <ul role="list">
+          {pages.map((p) => <li><a href={url(lang, p)}>{d.nav[p]}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav class="site-footer__col" aria-label={d.footer.products}>
+        <h2>{d.footer.products}</h2>
+        <ul role="list">
+          {categories.map((c) => <li><a href={`${url(lang, 'products')}?c=${c}`}>{d.common.categories[c]}</a></li>)}
+        </ul>
+      </nav>
+
+      <div class="site-footer__col">
+        <h2>{d.footer.contact}</h2>
+        <ul role="list">
+          <li><a href={`tel:${site.phone}`} dir="ltr" class="mono">{site.phoneDisplay}</a></li>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li>{pick(site.address, lang)}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {year} {d.footer.rights}</p>
+      <ul role="list" class="site-footer__social" aria-label={d.footer.follow}>
+        {site.social.map((s) => <li><a href={s.url} rel="noopener" target="_blank">{s.name}</a></li>)}
+      </ul>
+      <a href={url(other(lang), path)} hreflang={other(lang)} lang={other(lang)}>{d.nav.switchLabel}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    overflow: hidden;
+    background: var(--grad-radial);
+    color: #fff;
+    padding-block: clamp(72px, 10vw, 128px) 28px;
+  }
+  .site-footer :global(.site-footer__petals) {
+    position: absolute;
+    inset-inline-end: -8%;
+    bottom: -30%;
+    width: min(900px, 110vw);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .site-footer .wrap {
+    position: relative;
+  }
+  .site-footer__top {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 48px 32px;
+  }
+  .site-footer__brand {
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+  .site-footer :global(.site-footer__logo) {
+    width: 168px;
+  }
+  .site-footer__slogan {
+    font-size: var(--fs-3);
+    font-weight: 700;
+  }
+  .site-footer__trust {
+    color: var(--text-on-dark-2);
+    font-size: var(--fs-small);
+  }
+  .site-footer__trust strong {
+    color: var(--azure-200);
+  }
+  .site-footer__col h2 {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    color: var(--azure-200);
+    margin-block-end: 16px;
+  }
+  .site-footer__col ul {
+    display: grid;
+    gap: 10px;
+    font-size: 0.95rem;
+  }
+  .site-footer a {
+    text-decoration: none;
+    opacity: 0.86;
+    transition: opacity 0.2s;
+  }
+  .site-footer a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+  .site-footer__bottom {
+    margin-block-start: clamp(56px, 8vw, 96px);
+    padding-block-start: 24px;
+    border-block-start: 1px solid var(--line-on-dark);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 32px;
+    font-size: var(--fs-small);
+    color: var(--text-on-dark-2);
+  }
+  .site-footer__bottom p {
+    margin-inline-end: auto;
+  }
+  .site-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+  @media (max-width: 900px) {
+    .site-footer__top {
+      grid-template-columns: 1fr 1fr;
+    }
+    .site-footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 520px) {
+    .site-footer__top {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,477 @@
+{
+  "meta": {
+    "siteName": "Loaloah Industries",
+    "description": "A Saudi manufacturer of brass basin and shower mixers. Tested quality, supplied from inside the Kingdom through your regional distributor.",
+    "ogLocale": "en_US"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "quality": "Quality",
+    "downloads": "Downloads",
+    "contact": "Contact",
+    "quote": "Request a quote",
+    "menu": "Menu",
+    "close": "Close",
+    "skip": "Skip to content",
+    "switchLabel": "العربية",
+    "switchShort": "ع",
+    "switchAria": "View this page in Arabic"
+  },
+  "common": {
+    "all": "All",
+    "categories": {
+      "basin": "Basin mixers",
+      "shower": "Bath & shower mixers",
+      "kitchen": "Kitchen mixers",
+      "accessories": "Spare parts & accessories"
+    },
+    "categoriesShort": {
+      "basin": "Basin",
+      "shower": "Bath & shower",
+      "kitchen": "Kitchen",
+      "accessories": "Spare parts"
+    },
+    "finishes": {
+      "chrome": "Chrome",
+      "matte-black": "Matte black",
+      "gold": "Gold",
+      "rose-gold": "Rose gold"
+    },
+    "collections": {
+      "square": "Square",
+      "round": "Round",
+      "oval": "Oval",
+      "classic": "Classic"
+    },
+    "status": {
+      "inProgress": "In progress",
+      "planned": "Planned",
+      "certified": "Certified",
+      "soon": "Coming soon"
+    },
+    "code": "Code",
+    "collection": "Collection",
+    "category": "Category",
+    "viewProduct": "View product",
+    "drawingNote": "Illustration · product photos coming soon",
+    "photoPending": "Photography pending",
+    "whatsappMessage": "Hello, I'd like to ask about Loaloah products.",
+    "whatsappAria": "Message us on WhatsApp",
+    "madeIn": "Made in Saudi Arabia",
+    "madeInSub": "صُنع في السعودية",
+    "builtOnTrust": "Built on Trust.",
+    "builtOnTrustSub": "A Foundation of Quality & Reliability"
+  },
+  "home": {
+    "title": "Loaloah Industries | Saudi made, to world-class standards",
+    "hero": {
+      "eyebrow": "Saudi mixer manufacturer",
+      "titleLines": [
+        "Saudi made.",
+        "World-class standards."
+      ],
+      "lead": "Brass basin and shower mixers, cast, polished, plated and tested in our factory in the Kingdom, and delivered through your regional distributor.",
+      "ctaPrimary": "View products",
+      "ctaSecondary": "Request a quote",
+      "finishLabel": "Try a finish",
+      "facts": [
+        {
+          "k": "250,000",
+          "v": "cycle-tested cartridge"
+        },
+        {
+          "k": "58–62%",
+          "v": "copper in the alloy"
+        },
+        {
+          "k": "G ½″",
+          "v": "standard connection"
+        }
+      ]
+    },
+    "marquee": [
+      "Built on Trust",
+      "صناعة سعودية.. بمعايير عالمية",
+      "Manufacturing experience since 1996",
+      "Tested quality"
+    ],
+    "values": {
+      "kicker": "Why Loaloah",
+      "title": "A mixer you install once, that works for years, with a factory close behind it.",
+      "items": [
+        {
+          "title": "Saudi made",
+          "body": "From casting the brass to the final test, inside our factory in the Kingdom. Shorter supply lines, less stock to hold, and spare parts at your regional distributor."
+        },
+        {
+          "title": "Tested quality",
+          "body": "No model leaves the factory untested, and we publish no claim without a report. The cartridge is tested to 250,000 cycles."
+        },
+        {
+          "title": "Warranty & service",
+          "body": "A written warranty on every mixer. First reply within one working hour, resolution within one working day."
+        }
+      ]
+    },
+    "featured": {
+      "kicker": "Current range",
+      "title": "Ten models in four shapes",
+      "body": "Our collections are named by shape: Square, Round, Oval, Classic. Chrome first, with matte black, gold and rose gold on the lead models.",
+      "cta": "All products"
+    },
+    "process": {
+      "kicker": "Inside the factory",
+      "title": "From casting the brass to the leak test, under one roof",
+      "steps": [
+        {
+          "t": "Casting",
+          "d": "Brass alloy with 58–62% copper is cast into the body moulds."
+        },
+        {
+          "t": "Machining",
+          "d": "Threads and cartridge seats are machined so the mixer seals without leaks."
+        },
+        {
+          "t": "Polishing",
+          "d": "Polished in stages until the surface is ready for plating."
+        },
+        {
+          "t": "Plating",
+          "d": "Chrome on every model; matte black, gold and rose gold on the lead models."
+        },
+        {
+          "t": "Assembly",
+          "d": "The ceramic cartridge, aerator and seals are fitted."
+        },
+        {
+          "t": "Testing",
+          "d": "Pressure and leak testing on the line before packing."
+        }
+      ]
+    },
+    "stats": [
+      {
+        "value": 250000,
+        "label": "cycles the cartridge is tested to"
+      },
+      {
+        "value": 10,
+        "label": "models in the current range"
+      },
+      {
+        "value": 4,
+        "label": "finishes: chrome, matte black, gold, rose gold"
+      },
+      {
+        "value": 1996,
+        "label": "manufacturing experience since",
+        "plain": true
+      }
+    ],
+    "about": {
+      "kicker": "About",
+      "title": "A Saudi factory founded in 2023, with manufacturing experience since 1996",
+      "body": "We make tested, modern brass mixers in the Kingdom at a fair price, and deliver them through traders, plumbers and contractors we serve up close.",
+      "cta": "About us",
+      "photo": "Production line"
+    },
+    "standards": {
+      "kicker": "Certification & compliance",
+      "title": "We only say what we can prove",
+      "body": "Every certificate is published here when it is issued. This is where each one stands today.",
+      "cta": "Quality details"
+    },
+    "distributor": {
+      "kicker": "For distributors",
+      "title": "We're appointing one lead distributor per region",
+      "body": "A published guide price that protects your margin, stock and spare parts from a factory inside the Kingdom, and technical support on WhatsApp.",
+      "regions": [
+        "Central",
+        "Western",
+        "Eastern",
+        "Southern",
+        "Northern"
+      ],
+      "cta": "Apply to partner",
+      "secondary": "Message on WhatsApp"
+    }
+  },
+  "about": {
+    "title": "About",
+    "description": "Loaloah Industries is a Saudi mixer manufacturer founded in 2023, with manufacturing experience since 1996. Our vision, mission and values.",
+    "kicker": "About",
+    "heading": "Loaloah is a Saudi mixer manufacturer",
+    "lead": "We focus on one thing: brass basin and shower mixers, made and tested inside the Kingdom.",
+    "storyTitle": "Our story",
+    "story": [
+      "Loaloah Industries was founded in 2023 to make in the Kingdom what traders and contractors used to import, building on manufacturing experience that goes back to 1996.",
+      "Traders today choose between a global brand at a high price, or a cheap import that may come back with scaling and plating complaints. We offer a third option: tested quality, supply from inside the Kingdom, and a price below the global brands."
+    ],
+    "visionTitle": "Vision",
+    "vision": "For Loaloah to be the first choice for mixers made in the Kingdom, and to export to neighbouring Arab markets.",
+    "missionTitle": "Mission",
+    "mission": "We make tested, modern brass mixers in the Kingdom at a fair price, and deliver them through traders, plumbers and contractors we serve up close.",
+    "valuesTitle": "Our values, and what they mean in practice",
+    "values": [
+      {
+        "t": "Quality first",
+        "d": "No model ships untested, and no claim is published without a report."
+      },
+      {
+        "t": "Innovation",
+        "d": "We review the range every six months against sales and feedback."
+      },
+      {
+        "t": "Sustainability",
+        "d": "Every model carries a water-efficiency label."
+      },
+      {
+        "t": "Respect for partners",
+        "d": "A published guide price that protects the trader's margin."
+      },
+      {
+        "t": "Customer first",
+        "d": "First reply within one working hour, resolution within one working day."
+      }
+    ],
+    "chainTitle": "How a mixer reaches you",
+    "chain": [
+      {
+        "t": "Factory",
+        "d": "Production & quality"
+      },
+      {
+        "t": "Lead distributor",
+        "d": "Regional stock & delivery"
+      },
+      {
+        "t": "Approved retailer",
+        "d": "Sales to plumbers & pricing"
+      },
+      {
+        "t": "Plumber",
+        "d": "Recommendation & installation"
+      },
+      {
+        "t": "End user",
+        "d": "Bathroom & kitchen"
+      }
+    ],
+    "chainProjects": "For projects: direct sales from the factory to contractors and developers.",
+    "factoryTitle": "The factory",
+    "factoryBody": "We cast, polish, plate and test in our own factory in the Kingdom. Photos of the factory and production lines will be published here soon.",
+    "saudiTitle": "Made in Saudi Arabia",
+    "saudiBody": "We use the Saudi Made programme logo only on products that meet its criteria, once membership is approved."
+  },
+  "products": {
+    "title": "Products",
+    "description": "Brass basin, bath, shower and kitchen mixers, and spare parts. Saudi made, to world-class standards.",
+    "kicker": "Products",
+    "heading": "Mixers made and tested in the Kingdom",
+    "lead": "Ten models in four shapes, plus the spare parts you need. Every model in chrome, and the lead models in four finishes.",
+    "filterLabel": "Filter by category",
+    "countOne": "product",
+    "countMany": "products",
+    "specs": "Specifications",
+    "finishes": "Available finishes",
+    "datasheet": "Datasheet",
+    "datasheetAr": "Arabic",
+    "datasheetEn": "English",
+    "quote": "Request a quote",
+    "whatsapp": "Ask on WhatsApp",
+    "related": "More from this category",
+    "back": "All products",
+    "certTitle": "Compliance",
+    "certBody": "The water-efficiency label and certificate of conformity for this model are in progress, and will be published here when issued."
+  },
+  "quality": {
+    "title": "Quality & Certification",
+    "description": "What we test in Loaloah mixers, what we make them from, and where each certificate stands.",
+    "kicker": "Quality",
+    "heading": "No model ships untested",
+    "lead": "And no claim is published without a report. This page covers what we test, what we make our mixers from, and what the warranty covers.",
+    "testsTitle": "What we test",
+    "tests": [
+      {
+        "k": "250,000",
+        "u": "cycles",
+        "t": "Cartridge life",
+        "d": "The ceramic cartridge is tested to 250,000 open-close cycles."
+      },
+      {
+        "k": "60",
+        "u": "bar",
+        "t": "Flexible hoses",
+        "d": "Braided hoses are tested at 60 bar at 23°C, and 30 bar at 90°C."
+      },
+      {
+        "k": "SASO",
+        "u": "2655",
+        "t": "Water efficiency",
+        "d": "Each model's flow is measured in an ISO/IEC 17025 accredited lab, and the efficiency label is printed on the box."
+      }
+    ],
+    "materialsTitle": "What we make them from",
+    "materials": [
+      {
+        "t": "Brass alloy",
+        "d": "58–62% copper. We say “brass alloy”, not “pure copper”, because that is the technically correct description."
+      },
+      {
+        "t": "Ceramic cartridge",
+        "d": "Ceramic discs control temperature and flow with a single lever."
+      },
+      {
+        "t": "Stainless steel 304",
+        "d": "For braided hose sleeves and accessories."
+      },
+      {
+        "t": "Finishes",
+        "d": "Chrome on every model; matte black, gold and rose gold on the lead models."
+      }
+    ],
+    "warrantyTitle": "Warranty & service",
+    "warranty": [
+      "A written warranty on every mixer, with clear terms in the box leaflet.",
+      "In-store replacement within a published period.",
+      "Original spare parts at every regional distributor.",
+      "First reply within one working hour, resolution within one working day."
+    ],
+    "certsTitle": "Certification & compliance",
+    "certsBody": "Every certificate is published here when issued. We don't use any body's mark before it is approved.",
+    "testsNote": "Every mixer also goes through pressure and leak testing on the production line before packing."
+  },
+  "certs": [
+    {
+      "name": "SASO · Water-efficiency regulation",
+      "d": "ISO/IEC 17025 lab report to SASO 2655, and an efficiency label per model.",
+      "status": "inProgress"
+    },
+    {
+      "name": "SABER platform",
+      "d": "Facility and product registration, with a certificate of conformity per model.",
+      "status": "inProgress"
+    },
+    {
+      "name": "ISO 9001",
+      "d": "Quality management system at the factory.",
+      "status": "inProgress"
+    },
+    {
+      "name": "Saudi Made",
+      "d": "Membership of the Saudi Export Development Authority programme.",
+      "status": "inProgress"
+    },
+    {
+      "name": "G-Mark · GSO",
+      "d": "Water-efficiency mark for export to the Gulf.",
+      "status": "planned"
+    }
+  ],
+  "downloads": {
+    "title": "Downloads",
+    "description": "The Loaloah catalogue, datasheets and installation guides.",
+    "kicker": "Downloads",
+    "heading": "Catalogue and datasheets",
+    "lead": "Each file is published here once approved. Need one that isn't out yet? Request it and we'll send it when it's ready.",
+    "groups": [
+      {
+        "id": "catalog",
+        "t": "Catalogue",
+        "items": [
+          {
+            "t": "كتالوج اللؤلؤة 2027",
+            "lang": "ar",
+            "file": ""
+          },
+          {
+            "t": "Loaloah Catalogue 2027",
+            "lang": "en",
+            "file": ""
+          }
+        ]
+      },
+      {
+        "id": "guides",
+        "t": "Installation guides",
+        "items": [
+          {
+            "t": "Basin mixer installation guide",
+            "lang": "en",
+            "file": ""
+          },
+          {
+            "t": "Shower mixer installation guide",
+            "lang": "en",
+            "file": ""
+          }
+        ]
+      }
+    ],
+    "datasheetsTitle": "Datasheets",
+    "download": "Download",
+    "request": "Request file",
+    "langAr": "عربي",
+    "langEn": "English"
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Contact Loaloah Industries: quotes, distributors and projects.",
+    "kicker": "Contact",
+    "heading": "First reply within one working hour",
+    "lead": "Tell us what you need, or message us directly on WhatsApp.",
+    "form": {
+      "name": "Name",
+      "company": "Company or shop",
+      "phone": "Mobile",
+      "email": "Email",
+      "type": "Inquiry type",
+      "types": {
+        "distributor": "Distributor",
+        "project": "Project",
+        "retail": "Retail shop",
+        "plumber": "Plumber",
+        "other": "Other"
+      },
+      "region": "Region",
+      "message": "Message",
+      "messagePlaceholder": "Models and quantities, or anything that helps us",
+      "consent": "I agree that Loaloah may contact me about this request.",
+      "submit": "Send request",
+      "sending": "Sending…",
+      "successTitle": "Request received",
+      "successBody": "Thank you. We'll reply within one working hour.",
+      "error": "Couldn't send. Please try again or message us on WhatsApp.",
+      "optional": "optional",
+      "required": "This field is required",
+      "invalidPhone": "Enter a valid mobile number"
+    },
+    "details": {
+      "phone": "Phone",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "address": "Address",
+      "hours": "Working hours",
+      "hoursValue": "Sunday – Thursday, 8 am – 5 pm"
+    },
+    "map": {
+      "load": "Show map",
+      "open": "Open in Google Maps",
+      "note": "The map loads from Google when clicked."
+    }
+  },
+  "footer": {
+    "pages": "Pages",
+    "products": "Products",
+    "contact": "Contact",
+    "rights": "Loaloah Industries. All rights reserved.",
+    "follow": "Follow"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page may have moved or its link changed.",
+    "cta": "Back to home"
+  }
+}

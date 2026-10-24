@@ -1,0 +1,51 @@
+---
+import PetalLines from './PetalLines.astro';
+interface Props { kicker: string; title: string; lead?: string; compact?: boolean }
+const { kicker, title, lead, compact = false } = Astro.props;
+---
+<section class:list={['phero', 'on-dark', { 'phero--compact': compact }]}>
+  <PetalLines class="phero__petals" filled={3} />
+  <div class="wrap phero__inner">
+    <slot name="before" />
+    <p class="kicker" data-reveal>{kicker}</p>
+    <h1 class="phero__title" data-split data-split-now>{title}</h1>
+    {lead && <p class="lead phero__lead" data-reveal style="--d:.25s">{lead}</p>}
+    <slot />
+  </div>
+</section>
+<style>
+  .phero {
+    position: relative;
+    overflow: hidden;
+    background: var(--grad-radial);
+    color: #fff;
+    padding-block: calc(var(--header-h) + clamp(64px, 10vw, 140px)) clamp(64px, 9vw, 120px);
+  }
+  .phero--compact {
+    padding-block-end: clamp(40px, 6vw, 72px);
+  }
+  .phero :global(.phero__petals) {
+    position: absolute;
+    inset-inline-end: -6%;
+    top: 4%;
+    width: min(760px, 95vw);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  :global([dir='rtl']) .phero :global(.phero__petals) {
+    transform: scaleX(-1);
+  }
+  .phero__inner {
+    position: relative;
+    display: grid;
+    gap: 22px;
+    justify-items: start;
+  }
+  .phero__title {
+    font-size: var(--fs-1);
+    max-width: 18ch;
+  }
+  .phero__lead {
+    max-width: 52ch;
+  }
+</style>

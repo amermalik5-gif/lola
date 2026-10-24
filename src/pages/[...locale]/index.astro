@@ -1,0 +1,711 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PetalLines from '../../components/PetalLines.astro';
+import Marquee from '../../components/Marquee.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CertList from '../../components/CertList.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import DistributorCTA from '../../components/DistributorCTA.astro';
+import { t, url, localeParams, type Lang } from '../../lib/i18n';
+import { featured } from '../../lib/products';
+import productData from '../../../content/products.json';
+
+export const getStaticPaths = localeParams;
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+const h = d.home;
+---
+<Base lang={lang} title={h.title}>
+  <!-- ============ HERO ============ -->
+  <section class="hero on-dark" data-hero data-finish-active="chrome">
+    <PetalLines class="hero__petals" filled={2} />
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <p class="kicker" data-hero-fade>{h.hero.eyebrow}</p>
+        <h1 class="hero__title">
+          {h.hero.titleLines.map((l, i) => <span class:list={['hero__line', { accent: i === 1 }]}>{l}</span>)}
+        </h1>
+        <p class="lead hero__lead" data-hero-fade>{h.hero.lead}</p>
+        <div class="hero__ctas" data-hero-fade>
+          <a class="btn btn--light" href={url(lang, 'products')} data-magnetic>{h.hero.ctaPrimary}<Icon name="arrow" class="arrow" /></a>
+          <a class="btn btn--ghost" href={url(lang, 'contact')}>{h.hero.ctaSecondary}</a>
+        </div>
+        <dl class="hero__facts" data-hero-fade>
+          {h.hero.facts.map((f) => (
+            <div><dt class="mono" dir="ltr">{f.k}</dt><dd>{f.v}</dd></div>
+          ))}
+        </dl>
+      </div>
+
+      <div class="hero__stage" data-hero-stage>
+        <img class="hero__poster" src="/hero-poster.webp" alt="" width="1224" height="1286" fetchpriority="high" decoding="async" />
+        <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
+        <div class="hero__finishes" role="group" aria-label={h.hero.finishLabel} data-hero-fade>
+          <span class="hero__finishes-label">{h.hero.finishLabel}</span>
+          <div class="hero__finish-btns">
+            {productData.finishes.map((f, i) => (
+              <button type="button" class="finish-btn" data-finish={f} aria-pressed={i === 0 ? 'true' : 'false'}>
+                <span class={`swatch swatch--${f}`} aria-hidden="true"></span>
+                <span class="finish-btn__label">{d.common.finishes[f as keyof typeof d.common.finishes]}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Marquee items={h.marquee} />
+
+  <!-- ============ VALUES ============ -->
+  <section class="section values">
+    <div class="window-light"></div>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker" data-reveal>{h.values.kicker}</p>
+        <h2 class="h-display values__title" data-split>{h.values.title}</h2>
+      </div>
+      <ol role="list" class="values__list" data-reveal-group>
+        {h.values.items.map((v, i) => (
+          <li class="values__item" data-reveal>
+            <span class="values__num mono">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="h-3">{v.title}</h3>
+            <p>{v.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED ============ -->
+  <section class="featured section--mist" data-hscroll>
+    <div class="featured__inner">
+      <div class="wrap featured__head">
+        <div class="section-head">
+          <p class="kicker" data-reveal>{h.featured.kicker}</p>
+          <h2 class="h-display" data-split>{h.featured.title}</h2>
+          <p class="lead" data-reveal>{h.featured.body}</p>
+        </div>
+        <a class="link-arrow" href={url(lang, 'products')} data-reveal>{h.featured.cta}<Icon name="arrow" /></a>
+      </div>
+      <div class="featured__viewport">
+        <ul role="list" class="featured__track" data-hscroll-track>
+          {featured.map((p) => <li><ProductCard product={p} lang={lang} /></li>)}
+          <li class="featured__more">
+            <a href={url(lang, 'products')}>
+              <span class="mono">{productData.items.length}</span>
+              <span>{h.featured.cta}</span>
+              <Icon name="arrow" />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS ============ -->
+  <section class="process on-dark" data-process>
+    <div class="wrap process__grid">
+      <div class="process__aside">
+        <p class="kicker">{h.process.kicker}</p>
+        <h2 class="h-2" data-split>{h.process.title}</h2>
+        <div class="process__counter" aria-hidden="true">
+          <span class="process__num mono" data-process-num>01</span>
+          <span class="process__total mono">/ {String(h.process.steps.length).padStart(2, '0')}</span>
+        </div>
+        <PetalLines class="process__petals" filled={-1} draw={false} />
+      </div>
+      <div class="process__steps">
+        <span class="process__rail" aria-hidden="true"><span data-process-fill></span></span>
+        <ol role="list" class="process__list">
+        {h.process.steps.map((s, i) => (
+          <li class="process__step" data-step>
+            <span class="process__step-n mono">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </div>
+          </li>
+        ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="stats">
+    <div class="wrap">
+      <ul role="list" class="stats__grid" data-reveal-group>
+        {h.stats.map((s) => (
+          <li data-reveal>
+            <span class="stats__value mono" dir="ltr" data-count={s.value} data-plain={s.plain ? '' : undefined}>{s.plain ? s.value : s.value.toLocaleString('en-US')}</span>
+            <span class="stats__label">{s.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="section about">
+    <div class="wrap about__grid">
+      <PhotoSlot class="about__photo" caption={h.about.photo} status={d.common.photoPending} ratio="5 / 4" />
+      <div class="about__copy">
+        <p class="kicker" data-reveal>{h.about.kicker}</p>
+        <h2 class="h-2" data-split>{h.about.title}</h2>
+        <p class="lead" data-reveal>{h.about.body}</p>
+        <a class="link-arrow" href={url(lang, 'about')} data-reveal>{h.about.cta}<Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STANDARDS ============ -->
+  <section class="section section--mist standards">
+    <div class="window-light"></div>
+    <div class="wrap standards__grid">
+      <div class="section-head standards__head">
+        <p class="kicker" data-reveal>{h.standards.kicker}</p>
+        <h2 class="h-2" data-split>{h.standards.title}</h2>
+        <p class="lead" data-reveal>{h.standards.body}</p>
+        <a class="link-arrow" href={url(lang, 'quality')} data-reveal>{h.standards.cta}<Icon name="arrow" /></a>
+      </div>
+      <CertList lang={lang} />
+    </div>
+  </section>
+
+  <DistributorCTA lang={lang} />
+</Base>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    min-height: max(680px, 100svh);
+    display: grid;
+    align-items: center;
+    overflow: hidden;
+    background: var(--grad-radial);
+    color: #fff;
+    padding-block: calc(var(--header-h) + 32px) 72px;
+  }
+  .hero :global(.hero__petals) {
+    position: absolute;
+    width: min(1180px, 140vw);
+    inset-inline-end: -18%;
+    bottom: -34%;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  :global([dir='rtl']) .hero :global(.hero__petals) {
+    transform: scaleX(-1);
+  }
+  .hero__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 24px;
+  }
+  .hero__copy {
+    display: grid;
+    gap: 26px;
+    justify-items: start;
+    position: relative;
+    z-index: 2;
+  }
+  .hero__title {
+    font-size: var(--fs-hero);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+  :global([dir='rtl']) .hero__title {
+    font-size: clamp(2.5rem, 1.2rem + 4.6vw, 5.6rem);
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+  .hero__line {
+    display: block;
+    animation: hero-rise 1.3s var(--ease-out) both;
+  }
+  .hero__line + .hero__line {
+    animation-delay: 0.12s;
+  }
+  @keyframes hero-rise {
+    from {
+      transform: translateY(0.4em);
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      transform: none;
+      clip-path: inset(-10% 0 -10% 0);
+    }
+  }
+  .hero__line.accent {
+    color: var(--azure-200);
+  }
+  .hero__lead {
+    max-width: 40ch;
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 36px;
+    margin-block-start: 12px;
+    padding-block-start: 22px;
+    border-block-start: 1px solid var(--line-on-dark);
+  }
+  .hero__facts dt {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #fff;
+  }
+  .hero__facts dd {
+    margin: 0;
+    font-size: var(--fs-small);
+    color: var(--text-on-dark-2);
+  }
+
+  .hero__stage {
+    position: relative;
+    aspect-ratio: 1 / 1.05;
+    width: 100%;
+  }
+  .hero__canvas,
+  .hero__poster {
+    position: absolute;
+    inset: -6% -10% 6%;
+    width: 120%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .hero__canvas {
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-out);
+  }
+  .hero__poster {
+    transition: opacity 1.2s var(--ease-out);
+  }
+  .gl-ready .hero__canvas {
+    opacity: 1;
+  }
+  .gl-ready .hero__poster {
+    opacity: 0;
+  }
+  .hero__finishes {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+  }
+  .no-gl .hero__finishes {
+    display: none;
+  }
+  .hero__finishes-label {
+    font-size: var(--fs-micro);
+    color: var(--text-on-dark-2);
+    font-weight: 600;
+  }
+  .hero__finish-btns {
+    display: flex;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  }
+  .finish-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding-inline: 10px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #fff;
+    font-size: var(--fs-small);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .finish-btn .swatch {
+    width: 18px;
+    height: 18px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
+  }
+  .finish-btn[aria-pressed='true'] {
+    background: #fff;
+    color: var(--atlantic);
+  }
+  .finish-btn:not([aria-pressed='true']):hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  @media (max-width: 1024px) {
+    .hero {
+      min-height: auto;
+      padding-block-end: 56px;
+    }
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+    .hero__stage {
+      aspect-ratio: 1 / 1;
+      max-width: 560px;
+      margin-inline: auto;
+      margin-block-start: -12px;
+    }
+  }
+  @media (max-width: 560px) {
+    .finish-btn__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+    .finish-btn {
+      padding: 0 11px;
+    }
+    .hero__facts {
+      gap: 14px 24px;
+    }
+  }
+
+  /* ---------- Values ---------- */
+  .values__title {
+    max-width: 20ch;
+  }
+  .values__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 3vw, 48px);
+  }
+  .values__item {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding-block-start: 22px;
+    border-block-start: 1px solid var(--line-strong);
+  }
+  .values__item p {
+    color: var(--text-2);
+  }
+  .values__num {
+    font-size: var(--fs-micro);
+    color: var(--azure);
+  }
+  @media (max-width: 860px) {
+    .values__list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- Featured ---------- */
+  .featured {
+    background: var(--mist);
+    padding-block: var(--section);
+    overflow: hidden;
+  }
+  .featured__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    margin-block-end: clamp(32px, 4vw, 56px);
+  }
+  .featured__head .section-head {
+    margin: 0;
+  }
+  .featured__viewport {
+    padding-inline: var(--gutter);
+    max-width: calc(var(--maxw) + 0px);
+    margin-inline: auto;
+  }
+  .featured__track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+  }
+  .featured__track > li {
+    width: clamp(260px, 25vw, 340px);
+    flex: none;
+  }
+  .featured__more a {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 14px;
+    height: 100%;
+    min-height: 300px;
+    border-radius: var(--r);
+    background: var(--grad-linear);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.15rem;
+    transition: transform 0.6s var(--ease-out);
+  }
+  .featured__more a:hover {
+    transform: translateY(-6px);
+  }
+  .featured__more .mono {
+    font-size: 4rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+  .featured__more :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+  :global([dir='rtl']) .featured__more :global(svg) {
+    transform: scaleX(-1);
+  }
+  @media (max-width: 1024px) {
+    .featured__viewport {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding-block-end: 8px;
+    }
+    .featured__viewport::-webkit-scrollbar {
+      display: none;
+    }
+    .featured__track > li {
+      scroll-snap-align: start;
+      width: min(78vw, 320px);
+    }
+    .featured__head {
+      flex-direction: column;
+      align-items: start;
+    }
+  }
+
+  /* ---------- Process ---------- */
+  .process {
+    position: relative;
+    background: var(--ink);
+    color: #fff;
+    overflow: hidden;
+  }
+  .process::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(70% 80% at 15% 30%, rgba(2, 84, 151, 0.7), transparent 70%);
+  }
+  :global([dir='rtl']) .process::before {
+    background: radial-gradient(70% 80% at 85% 30%, rgba(2, 84, 151, 0.7), transparent 70%);
+  }
+  .process__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(32px, 6vw, 96px);
+    min-height: 100vh;
+    align-items: center;
+    padding-block: var(--section);
+  }
+  .process__aside {
+    display: grid;
+    gap: 22px;
+    align-content: center;
+    position: relative;
+  }
+  .process__counter {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-block-start: 12px;
+  }
+  .process__num {
+    font-size: clamp(5rem, 12vw, 10rem);
+    line-height: 0.9;
+    color: var(--azure);
+    font-weight: 400;
+  }
+  .process__total {
+    color: var(--text-on-dark-2);
+  }
+  .process :global(.process__petals) {
+    position: absolute;
+    width: 220px;
+    inset-inline-end: -40px;
+    top: -120px;
+    opacity: 0.22;
+    transform: rotate(calc(var(--step, 0) * 12deg));
+    transition: transform 1s var(--ease-out);
+  }
+  .process__steps {
+    position: relative;
+    padding-inline-start: 40px;
+  }
+  .process__list {
+    display: grid;
+    gap: 6px;
+  }
+  .process__rail {
+    position: absolute;
+    inset-block: 18px;
+    inset-inline-start: 11px;
+    width: 1px;
+    background: var(--line-on-dark);
+  }
+  .process__rail span {
+    position: absolute;
+    inset: 0;
+    background: var(--azure);
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+  .process__step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    padding-block: 18px;
+    opacity: 0.38;
+    transition: opacity 0.6s var(--ease-out);
+  }
+  .process__step::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: -34px;
+    top: 28px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--ink);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
+    transition: background-color 0.4s, box-shadow 0.4s;
+  }
+  .process__step.is-active,
+  .process__step.is-done {
+    opacity: 1;
+  }
+  .process__step.is-done {
+    opacity: 0.66;
+  }
+  .process__step.is-active::before,
+  .process__step.is-done::before {
+    background: var(--azure);
+    box-shadow: 0 0 0 4px rgba(58, 161, 219, 0.25);
+  }
+  .process__step-n {
+    font-size: var(--fs-micro);
+    color: var(--azure-200);
+    padding-block-start: 8px;
+  }
+  .process__step h3 {
+    font-size: var(--fs-3);
+    margin-block-end: 6px;
+  }
+  .process__step p {
+    color: var(--text-on-dark-2);
+    max-width: 44ch;
+  }
+  @media (max-width: 1024px) {
+    .process__grid {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .process__counter,
+    .process :global(.process__petals) {
+      display: none;
+    }
+    .process__step {
+      opacity: 1;
+    }
+    .process__rail span {
+      transform: scaleY(calc((var(--step, 0) + 1) / 6));
+      transition: transform 0.8s var(--ease-out);
+    }
+  }
+
+  /* ---------- Stats ---------- */
+  .stats {
+    padding-block: clamp(64px, 8vw, 112px);
+    border-block-end: 1px solid var(--line);
+  }
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  .stats__grid li {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    padding-inline-start: 20px;
+    border-inline-start: 1px solid var(--line-strong);
+  }
+  .stats__value {
+    font-size: clamp(2.4rem, 1.4rem + 3.2vw, 4.4rem);
+    line-height: 1;
+    color: var(--atlantic);
+    letter-spacing: -0.03em;
+  }
+  :global([dir='rtl']) .stats__value {
+    text-align: right;
+  }
+  .stats__label {
+    color: var(--text-2);
+    font-size: 0.95rem;
+    max-width: 22ch;
+  }
+  @media (max-width: 860px) {
+    .stats__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px 20px;
+    }
+  }
+
+  /* ---------- About ---------- */
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: center;
+  }
+  .about__copy {
+    display: grid;
+    gap: 22px;
+    justify-items: start;
+  }
+  @media (max-width: 860px) {
+    .about__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- Standards ---------- */
+  .standards__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+  .standards__head {
+    justify-items: start;
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+  }
+  @media (max-width: 960px) {
+    .standards__grid {
+      grid-template-columns: 1fr;
+    }
+    .standards__head {
+      position: static;
+    }
+  }
+</style>

@@ -1,0 +1,220 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CertList from '../../components/CertList.astro';
+import ProductDrawing from '../../components/ProductDrawing.astro';
+import Icon from '../../components/Icon.astro';
+import { t, url, localeParams, type Lang } from '../../lib/i18n';
+
+export const getStaticPaths = localeParams;
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+const q = d.quality;
+---
+<Base lang={lang} title={`${q.title} | ${d.meta.siteName}`} description={q.description} path="quality">
+  <PageHero kicker={q.kicker} title={q.heading} lead={q.lead} />
+
+  <section class="section tests">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="h-2" data-split>{q.testsTitle}</h2>
+      </div>
+      <ul role="list" class="tests__grid" data-reveal-group>
+        {q.tests.map((x) => (
+          <li class="test" data-reveal>
+            <p class="test__k mono" dir="ltr">
+              {/^\d[\d,]*$/.test(x.k) ? <span data-count={x.k.replace(/,/g, '')}>{x.k}</span> : <span>{x.k}</span>}
+              <small>{x.u}</small>
+            </p>
+            <h3>{x.t}</h3>
+            <p>{x.d}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="tests__note" data-reveal>{q.testsNote}</p>
+    </div>
+  </section>
+
+  <section class="section section--mist materials">
+    <div class="window-light"></div>
+    <div class="wrap materials__grid">
+      <div class="materials__art">
+        <ProductDrawing kind="cartridge" code="LA-A301" />
+      </div>
+      <div>
+        <div class="section-head">
+          <h2 class="h-2" data-split>{q.materialsTitle}</h2>
+        </div>
+        <dl class="mats" data-reveal-group>
+          {q.materials.map((m) => (
+            <div class="mats__row" data-reveal>
+              <dt>{m.t}</dt>
+              <dd>{m.d}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section warranty">
+    <div class="wrap warranty__grid">
+      <h2 class="h-2" data-split>{q.warrantyTitle}</h2>
+      <ul role="list" class="checks" data-reveal-group>
+        {q.warranty.map((w) => (
+          <li data-reveal><span class="checks__i"><Icon name="check" /></span>{w}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--mist" id="certificates">
+    <div class="wrap certs-grid">
+      <div class="section-head">
+        <h2 class="h-2" data-split>{q.certsTitle}</h2>
+        <p class="lead" data-reveal>{q.certsBody}</p>
+        <a class="link-arrow" href={url(lang, 'downloads')} data-reveal>{d.nav.downloads}<Icon name="arrow" /></a>
+      </div>
+      <CertList lang={lang} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tests__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .tests__note {
+    margin-block-start: 24px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+  .test {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    padding: 28px 24px;
+    border-radius: var(--r);
+    background: var(--mist);
+  }
+  .test:first-child {
+    background: var(--grad-linear);
+    color: #fff;
+  }
+  .test:first-child p:not(.test__k) {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .test:first-child .test__k {
+    color: #fff;
+  }
+  .test__k {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: clamp(2rem, 1.4rem + 2vw, 3rem);
+    line-height: 1;
+    color: var(--atlantic);
+    margin-block-end: 18px;
+  }
+  :global([dir='rtl']) .test__k {
+    justify-content: flex-end;
+  }
+  .test__k small {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+  .test h3 {
+    font-size: 1.15rem;
+  }
+  .test p:not(.test__k) {
+    color: var(--text-2);
+    font-size: 0.95rem;
+  }
+
+  .materials__grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: center;
+  }
+  .materials__art {
+    max-width: 380px;
+    margin-inline: auto;
+    width: 100%;
+  }
+  .mats {
+    border-block-start: 1px solid var(--line-strong);
+  }
+  .mats__row {
+    display: grid;
+    grid-template-columns: minmax(150px, 0.7fr) 1.3fr;
+    gap: 24px;
+    padding-block: 22px;
+    border-block-end: 1px solid var(--line);
+  }
+  .mats__row dt {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .mats__row dd {
+    margin: 0;
+    color: var(--text-2);
+  }
+
+  .warranty__grid,
+  .certs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+  .certs-grid .section-head {
+    justify-items: start;
+  }
+  .checks {
+    display: grid;
+    gap: 4px;
+  }
+  .checks li {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-block: 18px;
+    border-block-end: 1px solid var(--line);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .checks__i {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--azure-100);
+    color: var(--atlantic);
+  }
+  .checks__i :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (max-width: 860px) {
+    .materials__grid,
+    .warranty__grid,
+    .certs-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 720px) {
+    .tests__grid {
+      grid-template-columns: 1fr;
+    }
+    .mats__row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>

@@ -1,0 +1,526 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import site from '../../../content/site.json';
+import { t, pick, localeParams, type Lang } from '../../lib/i18n';
+import { products } from '../../lib/products';
+
+export const getStaticPaths = localeParams;
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+const c = d.contact;
+const f = c.form;
+const wa = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(d.common.whatsappMessage)}`;
+const productNames = Object.fromEntries(products.map((p) => [p.slug, `${pick(p.name, lang)} (${p.code})`]));
+const action = site.form.provider === 'formspree' && site.form.action ? site.form.action : '/';
+---
+<Base lang={lang} title={`${c.title} | ${d.meta.siteName}`} description={c.description} path="contact">
+  <PageHero kicker={c.kicker} title={c.heading} lead={c.lead} compact />
+
+  <section class="section contact">
+    <div class="wrap contact__grid">
+      <div class="contact__form-wrap">
+        <form
+          class="form"
+          name={site.form.name}
+          method="POST"
+          action={action}
+          data-netlify={site.form.provider === 'netlify' ? 'true' : undefined}
+          netlify-honeypot="bot-field"
+          novalidate
+          data-form
+          data-provider={site.form.provider}
+          data-products={JSON.stringify(productNames)}
+        >
+          <input type="hidden" name="form-name" value={site.form.name} />
+          <input type="hidden" name="language" value={lang} />
+          <p class="visually-hidden"><label>Leave empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+          <fieldset class="form__types">
+            <legend class="form__label">{f.type}</legend>
+            <div class="seg">
+              {Object.entries(f.types).map(([k, v], i) => (
+                <label class="seg__opt">
+                  <input type="radio" name="type" value={k} checked={i === 0} />
+                  <span>{v}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div class="form__row">
+            <div class="field">
+              <label class="form__label" for="f-name">{f.name}</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required />
+              <p class="field__err" data-err={f.required}></p>
+            </div>
+            <div class="field">
+              <label class="form__label" for="f-company">{f.company} <span class="opt">({f.optional})</span></label>
+              <input id="f-company" name="company" type="text" autocomplete="organization" />
+            </div>
+          </div>
+
+          <div class="form__row">
+            <div class="field">
+              <label class="form__label" for="f-phone">{f.phone}</label>
+              <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="05X XXX XXXX" required pattern="[+0-9 ()-]{8,}" />
+              <p class="field__err" data-err={f.invalidPhone}></p>
+            </div>
+            <div class="field">
+              <label class="form__label" for="f-email">{f.email} <span class="opt">({f.optional})</span></label>
+              <input id="f-email" name="email" type="email" autocomplete="email" dir="ltr" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="form__label" for="f-region">{f.region} <span class="opt">({f.optional})</span></label>
+            <div class="select">
+              <select id="f-region" name="region">
+                <option value="">—</option>
+                {d.home.distributor.regions.map((r) => <option value={r}>{r}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="form__label" for="f-message">{f.message} <span class="opt">({f.optional})</span></label>
+            <textarea id="f-message" name="message" rows="5" placeholder={f.messagePlaceholder}></textarea>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="consent" value="yes" required />
+            <span>{f.consent}</span>
+          </label>
+          <p class="field__err consent__err" data-err={f.required}></p>
+
+          <div class="form__actions">
+            <button class="btn form__submit" type="submit" data-sending={f.sending}>
+              <span data-label>{f.submit}</span><Icon name="arrow" class="arrow" />
+            </button>
+            <p class="form__error" role="alert" hidden data-form-error>{f.error}</p>
+          </div>
+        </form>
+
+        <div class="form-done" hidden data-form-done tabindex="-1">
+          <span class="form-done__icon"><Icon name="check" /></span>
+          <h2 class="h-2">{f.successTitle}</h2>
+          <p class="lead">{f.successBody}</p>
+        </div>
+      </div>
+
+      <aside class="details">
+        <a class="details__wa" href={wa} target="_blank" rel="noopener" data-magnetic>
+          <Icon name="whatsapp" />
+          <span><strong>{c.details.whatsapp}</strong><small dir="ltr">{site.phoneDisplay}</small></span>
+          <Icon name="arrow" class="details__arrow" />
+        </a>
+        <dl class="details__list">
+          <div><dt><Icon name="phone" />{c.details.phone}</dt><dd><a href={`tel:${site.phone}`} dir="ltr">{site.phoneDisplay}</a></dd></div>
+          <div><dt><Icon name="mail" />{c.details.email}</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+          <div><dt><Icon name="pin" />{c.details.address}</dt><dd>{pick(site.address, lang)}</dd></div>
+          <div><dt><Icon name="clock" />{c.details.hours}</dt><dd>{c.details.hoursValue}</dd></div>
+        </dl>
+        <div class="map" data-map={site.mapEmbed}>
+          <button type="button" class="map__load" data-map-load>
+            <Icon name="pin" />
+            <span>{c.map.load}</span>
+            <small>{c.map.note}</small>
+          </button>
+        </div>
+        <a class="link-arrow" href={site.mapUrl} target="_blank" rel="noopener">{c.map.open}<Icon name="arrow" /></a>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-form]')!;
+  const done = document.querySelector<HTMLElement>('[data-form-done]')!;
+  const errorBox = form.querySelector<HTMLElement>('[data-form-error]')!;
+  const submit = form.querySelector<HTMLButtonElement>('.form__submit')!;
+  const label = submit.querySelector<HTMLElement>('[data-label]')!;
+  const names: Record<string, string> = JSON.parse(form.dataset.products || '{}');
+
+  // Prefill from links like ?type=distributor&product=round-basin-mixer
+  const q = new URLSearchParams(location.search);
+  const type = q.get('type');
+  if (type) form.querySelector<HTMLInputElement>(`input[name="type"][value="${CSS.escape(type)}"]`)?.click();
+  const msg = form.querySelector<HTMLTextAreaElement>('[name="message"]')!;
+  const product = q.get('product');
+  const file = q.get('file');
+  if (product && names[product]) msg.value = `${names[product]}\n`;
+  else if (file) msg.value = `${file}\n`;
+
+  const showErr = (input: HTMLInputElement) => {
+    const field = input.closest('.field') ?? input.closest('.consent');
+    const err = (field?.classList.contains('consent') ? form.querySelector('.consent__err') : field?.querySelector('.field__err')) as HTMLElement | null;
+    const bad = !input.checkValidity();
+    input.setAttribute('aria-invalid', String(bad));
+    if (err) err.textContent = bad ? err.dataset.err || '' : '';
+    return !bad;
+  };
+  form.querySelectorAll<HTMLInputElement>('[required]').forEach((el) =>
+    el.addEventListener('blur', () => el.value && showErr(el)),
+  );
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const required = Array.from(form.querySelectorAll<HTMLInputElement>('[required]'));
+    const ok = required.map(showErr).every(Boolean);
+    if (!ok) return required.find((r) => !r.checkValidity())?.focus();
+
+    errorBox.hidden = true;
+    submit.disabled = true;
+    const original = label.textContent;
+    label.textContent = submit.dataset.sending || '…';
+    try {
+      const data = new FormData(form);
+      const res =
+        form.dataset.provider === 'formspree'
+          ? await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+          : await fetch('/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
+            });
+      if (!res.ok) throw new Error(String(res.status));
+      form.hidden = true;
+      done.hidden = false;
+      done.focus();
+    } catch {
+      errorBox.hidden = false;
+    } finally {
+      submit.disabled = false;
+      label.textContent = original;
+    }
+  });
+
+  // Map loads only when asked (keeps Google off the page until then)
+  const map = document.querySelector<HTMLElement>('[data-map]');
+  map?.querySelector('[data-map-load]')?.addEventListener('click', () => {
+    const iframe = document.createElement('iframe');
+    iframe.src = map.dataset.map!;
+    iframe.title = 'Map';
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    map.replaceChildren(iframe);
+  });
+</script>
+
+<style>
+  .contact {
+    padding-block-start: clamp(40px, 6vw, 80px);
+  }
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .form {
+    display: grid;
+    gap: 22px;
+  }
+  .form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  .form__types {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .form__label {
+    display: block;
+    font-size: var(--fs-small);
+    font-weight: 600;
+    margin-block-end: 8px;
+    padding: 0;
+  }
+  .opt {
+    font-weight: 400;
+    color: var(--text-2);
+  }
+  .seg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .seg__opt {
+    position: relative;
+  }
+  .seg__opt input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+  }
+  .seg__opt span {
+    display: inline-flex;
+    align-items: center;
+    height: 44px;
+    padding-inline: 18px;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.25s, color 0.25s, box-shadow 0.25s;
+  }
+  .seg__opt input:checked + span {
+    background: var(--atlantic);
+    color: #fff;
+    box-shadow: none;
+  }
+  .seg__opt input:focus-visible + span {
+    outline: 2px solid var(--azure);
+    outline-offset: 3px;
+  }
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    min-height: 54px;
+    padding: 14px 16px;
+    border: 0;
+    border-radius: var(--r-sm);
+    background: var(--mist);
+    box-shadow: inset 0 0 0 1px transparent;
+    font-size: 1rem;
+    transition: box-shadow 0.25s, background-color 0.25s;
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+  .field input:hover,
+  .field textarea:hover,
+  .field select:hover {
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    outline: none;
+    background: #fff;
+    box-shadow: inset 0 0 0 1.5px var(--azure), 0 0 0 4px rgba(58, 161, 219, 0.15);
+  }
+  .field [aria-invalid='true'] {
+    box-shadow: inset 0 0 0 1.5px #c8323b;
+  }
+  :global([dir='rtl']) .field input[dir='ltr'] {
+    text-align: right;
+  }
+  .select {
+    position: relative;
+  }
+  .select select {
+    appearance: none;
+    padding-inline-end: 44px;
+  }
+  .select::after {
+    content: '';
+    position: absolute;
+    inset-inline-end: 18px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-inline-end: 1.5px solid var(--text-2);
+    border-block-end: 1.5px solid var(--text-2);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+  .field__err {
+    min-height: 1.2em;
+    margin-block-start: 6px;
+    font-size: var(--fs-small);
+    color: #c8323b;
+  }
+  .field__err:empty {
+    min-height: 0;
+    margin: 0;
+  }
+  .consent {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 0.95rem;
+    color: var(--text-2);
+    cursor: pointer;
+  }
+  .consent input {
+    width: 20px;
+    height: 20px;
+    margin-block-start: 4px;
+    accent-color: var(--atlantic);
+    flex: none;
+  }
+  .form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .form__submit {
+    min-width: 200px;
+  }
+  .form__submit:disabled {
+    opacity: 0.7;
+    cursor: progress;
+  }
+  .form__error {
+    color: #c8323b;
+    font-weight: 600;
+  }
+  .form-done {
+    display: grid;
+    gap: 16px;
+    justify-items: start;
+    padding: clamp(28px, 5vw, 64px);
+    border-radius: var(--r-lg);
+    background: var(--mist);
+    outline: none;
+  }
+  .form-done__icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--atlantic);
+    color: #fff;
+  }
+  .form-done__icon :global(svg) {
+    width: 28px;
+    height: 28px;
+  }
+
+  .details {
+    display: grid;
+    gap: 22px;
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+  }
+  .details__wa {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 22px;
+    border-radius: var(--r);
+    background: var(--grad-linear);
+    color: #fff;
+    text-decoration: none;
+  }
+  .details__wa > :global(svg:first-child) {
+    width: 34px;
+    height: 34px;
+  }
+  .details__wa span {
+    display: grid;
+    flex: 1;
+  }
+  .details__wa small {
+    opacity: 0.85;
+    font-family: var(--mono);
+  }
+  :global([dir='rtl']) .details__wa small {
+    text-align: right;
+  }
+  .details__wa :global(.details__arrow) {
+    width: 20px;
+    height: 20px;
+  }
+  :global([dir='rtl']) .details__wa :global(.details__arrow) {
+    transform: scaleX(-1);
+  }
+  .details__list {
+    display: grid;
+    border-block-start: 1px solid var(--line-strong);
+  }
+  .details__list > div {
+    display: grid;
+    gap: 4px;
+    padding-block: 16px;
+    border-block-end: 1px solid var(--line);
+  }
+  .details__list dt {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--fs-small);
+    color: var(--text-2);
+  }
+  .details__list dt :global(svg) {
+    width: 16px;
+    height: 16px;
+    color: var(--azure);
+  }
+  .details__list dd {
+    margin: 0;
+    font-weight: 600;
+  }
+  .details__list a {
+    text-decoration: none;
+  }
+  .details__list a:hover {
+    color: var(--atlantic);
+    text-decoration: underline;
+  }
+  .map {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--r);
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 39px, var(--line) 39px 40px),
+      repeating-linear-gradient(90deg, transparent 0 39px, var(--line) 39px 40px),
+      var(--mist);
+  }
+  .map :global(iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .map__load {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--atlantic);
+  }
+  .map__load :global(svg) {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.4s var(--ease-out);
+  }
+  .map__load:hover :global(svg) {
+    transform: translateY(-4px);
+  }
+  .map__load small {
+    font-weight: 400;
+    color: var(--text-2);
+  }
+
+  @media (max-width: 960px) {
+    .contact__grid {
+      grid-template-columns: 1fr;
+    }
+    .details {
+      position: static;
+    }
+  }
+  @media (max-width: 560px) {
+    .form__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

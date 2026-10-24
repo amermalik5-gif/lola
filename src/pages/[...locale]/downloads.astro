@@ -1,0 +1,152 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import { t, url, pick, localeParams, type Lang } from '../../lib/i18n';
+import { products } from '../../lib/products';
+
+export const getStaticPaths = localeParams;
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+const dl = d.downloads;
+const contact = url(lang, 'contact');
+const langLabel = (l: string) => (l === 'ar' ? dl.langAr : dl.langEn);
+const request = (title: string) => `${contact}?type=other&file=${encodeURIComponent(title)}`;
+---
+<Base lang={lang} title={`${dl.title} | ${d.meta.siteName}`} description={dl.description} path="downloads">
+  <PageHero kicker={dl.kicker} title={dl.heading} lead={dl.lead} />
+
+  <section class="section">
+    <div class="window-light"></div>
+    <div class="wrap dl">
+      {dl.groups.map((g) => (
+        <div class="dl__group">
+          <h2 class="h-3 dl__title" data-reveal>{g.t}</h2>
+          <ul role="list" class="files" data-reveal-group>
+            {g.items.map((f) => (
+              <li class="file" data-reveal>
+                <span class="file__icon"><Icon name="file" /></span>
+                <div class="file__meta">
+                  <span class="file__name" lang={f.lang}>{f.t}</span>
+                  <span class="file__sub">PDF · {langLabel(f.lang)}</span>
+                </div>
+                {f.file ? (
+                  <a class="btn file__btn" href={f.file} download><Icon name="download" class="arrow" />{dl.download}</a>
+                ) : (
+                  <>
+                    <span class="chip">{d.common.status.soon}</span>
+                    <a class="link-arrow file__req" href={request(f.t)}>{dl.request}<Icon name="arrow" /></a>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <div class="dl__group">
+        <h2 class="h-3 dl__title" data-reveal>{dl.datasheetsTitle}</h2>
+        <ul role="list" class="files" data-reveal-group>
+          {products.map((p) => {
+            const name = pick(p.name, lang)!;
+            const file = p.datasheet[lang];
+            return (
+              <li class="file" data-reveal>
+                <span class="file__icon"><Icon name="file" /></span>
+                <div class="file__meta">
+                  <a class="file__name" href={url(lang, `products/${p.slug}`)}>{name}</a>
+                  <span class="file__sub"><span class="mono" dir="ltr">{p.code}</span> · PDF · {langLabel(lang)}</span>
+                </div>
+                {file ? (
+                  <a class="btn file__btn" href={file} download><Icon name="download" class="arrow" />{dl.download}</a>
+                ) : (
+                  <>
+                    <span class="chip">{d.common.status.soon}</span>
+                    <a class="link-arrow file__req" href={request(`${p.code} ${name}`)}>{dl.request}<Icon name="arrow" /></a>
+                  </>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .dl {
+    display: grid;
+    gap: clamp(48px, 7vw, 96px);
+  }
+  .dl__group {
+    display: grid;
+    grid-template-columns: 1fr 2.4fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .files {
+    border-block-start: 1px solid var(--line-strong);
+  }
+  .file {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-block: 18px;
+    border-block-end: 1px solid var(--line);
+  }
+  .file__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--r-sm);
+    background: var(--mist);
+    color: var(--atlantic);
+  }
+  .file__icon :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+  .file__meta {
+    display: grid;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  .file__name {
+    font-weight: 600;
+    text-decoration: none;
+  }
+  a.file__name:hover {
+    color: var(--atlantic);
+    text-decoration: underline;
+  }
+  .file__sub {
+    font-size: var(--fs-small);
+    color: var(--text-2);
+  }
+  .file__btn {
+    min-height: 42px;
+    padding-inline: 18px;
+    font-size: 0.9rem;
+  }
+  .file__req {
+    font-size: 0.9rem;
+  }
+  @media (max-width: 860px) {
+    .dl__group {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+  @media (max-width: 560px) {
+    .file {
+      flex-wrap: wrap;
+    }
+    .file .chip {
+      margin-inline-start: 62px;
+    }
+  }
+</style>

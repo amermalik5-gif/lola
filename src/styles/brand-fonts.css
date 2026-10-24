@@ -1,0 +1,10 @@
+/* Brand typeface — Expo Arabic (Book 400, SemiBold 600, Bold 700).
+   1. Put the licensed web fonts in /public/fonts/ with these file names.
+   2. Uncomment the rules below.
+   3. Add `import '../styles/brand-fonts.css';` to src/layouts/Base.astro. */
+
+/*
+@font-face { font-family: 'Expo Arabic'; src: url('/fonts/ExpoArabic-Book.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Expo Arabic'; src: url('/fonts/ExpoArabic-SemiBold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Expo Arabic'; src: url('/fonts/ExpoArabic-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+*/

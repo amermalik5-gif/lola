@@ -1,0 +1,196 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import DistributorCTA from '../../../components/DistributorCTA.astro';
+import { t, localeParams, type Lang } from '../../../lib/i18n';
+import { products, categories } from '../../../lib/products';
+
+export const getStaticPaths = localeParams;
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+const pd = d.products;
+const count = (c?: string) => (c ? products.filter((p) => p.category === c).length : products.length);
+---
+<Base lang={lang} title={`${pd.title} | ${d.meta.siteName}`} description={pd.description} path="products">
+  <PageHero kicker={pd.kicker} title={pd.heading} lead={pd.lead} />
+
+  <section class="catalog section--mist">
+    <div class="catalog__bar">
+      <div class="wrap catalog__bar-inner">
+        <div class="filters" role="group" aria-label={pd.filterLabel} data-filters>
+          <button type="button" class="filter" data-filter="all" aria-pressed="true">
+            {d.common.all}<span class="mono">{count()}</span>
+          </button>
+          {categories.map((c) => (
+            <button type="button" class="filter" data-filter={c} aria-pressed="false">
+              {d.common.categories[c]}<span class="mono">{count(c)}</span>
+            </button>
+          ))}
+        </div>
+        <p class="catalog__count" aria-live="polite" data-count-label data-one={pd.countOne} data-many={pd.countMany}>
+          <span class="mono" data-count-n>{products.length}</span> {pd.countMany}
+        </p>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <h2 class="visually-hidden">{pd.title}</h2>
+      <ul role="list" class="catalog__grid" data-grid>
+        {products.map((p) => (
+          <li data-item data-category={p.category}><ProductCard product={p} lang={lang} /></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <DistributorCTA lang={lang} />
+</Base>
+
+<script>
+  import { gsap } from 'gsap';
+  import { Flip } from 'gsap/Flip';
+  gsap.registerPlugin(Flip);
+
+  const root = document.querySelector<HTMLElement>('[data-filters]')!;
+  const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-item]'));
+  const nEl = document.querySelector<HTMLElement>('[data-count-n]')!;
+  const label = document.querySelector<HTMLElement>('[data-count-label]')!;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function apply(cat: string, animate = true) {
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === cat)));
+    const state = Flip.getState(items);
+    let n = 0;
+    items.forEach((el) => {
+      const show = cat === 'all' || el.dataset.category === cat;
+      el.hidden = !show;
+      if (show) n++;
+    });
+    nEl.textContent = String(n);
+    label.lastChild!.textContent = ' ' + (n === 1 ? label.dataset.one : label.dataset.many);
+    if (animate && !reduced) {
+      Flip.from(state, {
+        duration: 0.7,
+        ease: 'expo.out',
+        absolute: true,
+        stagger: 0.03,
+        onEnter: (els) => gsap.fromTo(els, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', stagger: 0.04 }),
+        onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.96, duration: 0.3 }),
+      });
+    }
+    const url = new URL(location.href);
+    cat === 'all' ? url.searchParams.delete('c') : url.searchParams.set('c', cat);
+    history.replaceState(null, '', url);
+  }
+
+  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter!)));
+  const initial = new URLSearchParams(location.search).get('c');
+  if (initial && buttons.some((b) => b.dataset.filter === initial)) apply(initial, false);
+</script>
+
+<style>
+  .catalog {
+    background: var(--mist);
+    padding-block-end: var(--section);
+  }
+  .catalog__bar {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 5;
+    transition: top 0.5s var(--ease-out);
+    background: rgba(243, 246, 249, 0.86);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-block-end: 1px solid var(--line);
+    margin-block-end: clamp(28px, 4vw, 48px);
+  }
+  :global(.header-hidden) .catalog__bar {
+    top: 0;
+  }
+  .catalog__bar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 76px;
+  }
+  .filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-block: 14px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+  .filters::-webkit-scrollbar {
+    display: none;
+  }
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+    height: 44px;
+    padding-inline: 18px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  }
+  .filter .mono {
+    display: grid;
+    place-items: center;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--mist);
+    font-size: var(--fs-micro);
+    color: var(--text-2);
+  }
+  .filter:hover {
+    box-shadow: inset 0 0 0 1px var(--azure);
+  }
+  .filter[aria-pressed='true'] {
+    background: var(--atlantic);
+    color: #fff;
+    box-shadow: none;
+  }
+  .filter[aria-pressed='true'] .mono {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+  }
+  .catalog__count {
+    flex: none;
+    color: var(--text-2);
+    font-size: var(--fs-small);
+  }
+  .catalog__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
+    gap: 20px;
+  }
+  .catalog__grid > [hidden] {
+    display: none;
+  }
+  @media (max-width: 720px) {
+    .catalog__count {
+      display: none;
+    }
+    .catalog__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+  }
+  @media (max-width: 380px) {
+    .catalog__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

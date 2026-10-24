@@ -1,0 +1,53 @@
+---
+import { t, type Lang } from '../lib/i18n';
+interface Props { finishes: string[]; lang: Lang; size?: 'sm' | 'md'; labels?: boolean }
+const { finishes, lang, size = 'sm', labels = false } = Astro.props;
+const d = t(lang);
+---
+<ul role="list" class:list={['swatches', `swatches--${size}`, { 'swatches--labels': labels }]}>
+  {finishes.map((f) => (
+    <li>
+      <span class={`swatch swatch--${f}`} aria-hidden="true"></span>
+      <span class={labels ? '' : 'visually-hidden'}>{d.common.finishes[f as keyof typeof d.common.finishes]}</span>
+    </li>
+  ))}
+</ul>
+<style>
+  .swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .swatches--labels {
+    gap: 10px 20px;
+  }
+  .swatches li {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--fs-small);
+  }
+  .swatch {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(11, 23, 71, 0.18);
+  }
+  .swatches--md .swatch {
+    width: 22px;
+    height: 22px;
+  }
+  :global(.swatch--chrome) {
+    background: linear-gradient(135deg, #fff 0%, #cfd9e3 40%, #fff 55%, #a9b8c8 100%);
+  }
+  :global(.swatch--matte-black) {
+    background: linear-gradient(135deg, #3a3d44, #15171b);
+  }
+  :global(.swatch--gold) {
+    background: linear-gradient(135deg, #f6dc9c, #c9993f 60%, #f0d28a);
+  }
+  :global(.swatch--rose-gold) {
+    background: linear-gradient(135deg, #f8d3c3, #cf8c72 60%, #f1c2ae);
+  }
+</style>

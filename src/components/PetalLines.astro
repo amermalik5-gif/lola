@@ -1,0 +1,30 @@
+---
+// The guideline's graphic element: the logomark's petals, enlarged, as hairline
+// outlines with one solid azure petal. Paths are taken unaltered from the logo.
+import { PETALS } from '../lib/brand';
+interface Props { class?: string; filled?: number; draw?: boolean }
+const { class: cls, filled = 2, draw = true } = Astro.props;
+---
+<svg class:list={['petal-lines', cls]} viewBox="-10 -10 224 160" aria-hidden="true" data-petals={draw ? '' : undefined}>
+  {PETALS.map((d, i) => (
+    <path d={d} class:list={['petal-lines__p', { 'is-filled': i === filled }]} pathLength="1" vector-effect="non-scaling-stroke" />
+  ))}
+</svg>
+<style>
+  .petal-lines {
+    overflow: visible;
+  }
+  .petal-lines__p {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.55);
+    stroke-width: 1;
+  }
+  .petal-lines__p.is-filled {
+    fill: var(--azure);
+    fill-opacity: 0.55;
+    stroke: none;
+  }
+  :global(.on-light) .petal-lines__p {
+    stroke: rgba(2, 84, 151, 0.35);
+  }
+</style>

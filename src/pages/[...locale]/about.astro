@@ -1,0 +1,292 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import DistributorCTA from '../../components/DistributorCTA.astro';
+import { PETALS } from '../../lib/brand';
+import { t, localeParams, type Lang } from '../../lib/i18n';
+
+export const getStaticPaths = localeParams;
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+const a = d.about;
+---
+<Base lang={lang} title={`${a.title} | ${d.meta.siteName}`} description={a.description} path="about">
+  <PageHero kicker={a.kicker} title={a.heading} lead={a.lead} />
+
+  <section class="section story">
+    <div class="window-light"></div>
+    <div class="wrap story__grid">
+      <h2 class="h-2" data-split>{a.storyTitle}</h2>
+      <div class="story__body" data-reveal-group>
+        {a.story.map((para, i) => <p class:list={{ 'story__first': i === 0 }} data-reveal>{para}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="vm">
+    <div class="wrap vm__grid">
+      <article class="vm__card vm__card--vision on-dark" data-reveal>
+        <p class="kicker">{a.visionTitle}</p>
+        <p class="vm__text">{a.vision}</p>
+      </article>
+      <article class="vm__card" data-reveal style="--d:.1s">
+        <p class="kicker">{a.missionTitle}</p>
+        <p class="vm__text">{a.mission}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section values-sec">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="h-2" data-split>{a.valuesTitle}</h2>
+      </div>
+      <ol role="list" class="vals" data-reveal-group>
+        {a.values.map((v, i) => (
+          <li class="vals__row" data-reveal>
+            <svg class="vals__icon" viewBox="0 0 204 140" aria-hidden="true"><path d={PETALS[i % PETALS.length]} /></svg>
+            <h3>{v.t}</h3>
+            <p>{v.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--mist chain-sec">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="h-2" data-split>{a.chainTitle}</h2>
+      </div>
+      <ol role="list" class="chain" data-reveal-group>
+        {a.chain.map((c, i) => (
+          <li class="chain__step" data-reveal>
+            <span class="chain__n mono">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{c.t}</h3>
+            <p>{c.d}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="chain__projects" data-reveal>{a.chainProjects}</p>
+    </div>
+  </section>
+
+  <section class="section factory">
+    <div class="wrap factory__grid">
+      <PhotoSlot caption={a.factoryTitle} status={d.common.photoPending} ratio="16 / 10" />
+      <div class="factory__copy">
+        <h2 class="h-2" data-split>{a.factoryTitle}</h2>
+        <p class="lead" data-reveal>{a.factoryBody}</p>
+        <div class="saudi" data-reveal>
+          <div class="saudi__mark" aria-hidden="true">
+            <span>{d.common.madeIn}</span>
+            <small>{d.common.madeInSub}</small>
+          </div>
+          <div>
+            <h3>{a.saudiTitle}</h3>
+            <p>{a.saudiBody}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <DistributorCTA lang={lang} />
+</Base>
+
+<style>
+  .story__grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: clamp(32px, 6vw, 96px);
+  }
+  .story__body {
+    display: grid;
+    gap: 24px;
+    max-width: 62ch;
+  }
+  .story__body p {
+    color: var(--text-2);
+    font-size: 1.1rem;
+  }
+  .story__body .story__first {
+    color: var(--text);
+    font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.75rem);
+    line-height: 1.55;
+    font-weight: 600;
+  }
+
+  .vm__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .vm__card {
+    display: grid;
+    gap: 20px;
+    align-content: space-between;
+    min-height: 300px;
+    padding: clamp(28px, 4vw, 56px);
+    border-radius: var(--r-lg);
+    background: var(--mist);
+  }
+  .vm__card--vision {
+    background: var(--grad-linear);
+    color: #fff;
+  }
+  .vm__text {
+    font-size: clamp(1.3rem, 1.05rem + 1vw, 2rem);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+  }
+
+  .vals {
+    border-block-start: 1px solid var(--line-strong);
+  }
+  .vals__row {
+    display: grid;
+    grid-template-columns: 56px minmax(160px, 1fr) 2fr;
+    align-items: center;
+    gap: 24px;
+    padding-block: 26px;
+    border-block-end: 1px solid var(--line);
+  }
+  .vals__icon {
+    width: 44px;
+    fill: var(--azure);
+  }
+  .vals__row h3 {
+    font-size: var(--fs-3);
+  }
+  .vals__row p {
+    color: var(--text-2);
+  }
+
+  .chain {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    counter-reset: c;
+  }
+  .chain__step {
+    position: relative;
+    display: grid;
+    gap: 8px;
+    align-content: start;
+    padding: 24px 20px;
+    border-radius: var(--r);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .chain__step:first-child {
+    background: var(--atlantic);
+    color: #fff;
+  }
+  .chain__step:first-child p,
+  .chain__step:first-child .chain__n {
+    color: var(--azure-200);
+  }
+  .chain__step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    inset-inline-end: -12px;
+    width: 12px;
+    height: 1px;
+    background: var(--azure);
+  }
+  .chain__n {
+    font-size: var(--fs-micro);
+    color: var(--azure);
+  }
+  .chain__step h3 {
+    font-size: 1.1rem;
+  }
+  .chain__step p {
+    font-size: 0.92rem;
+    color: var(--text-2);
+  }
+  .chain__projects {
+    margin-block-start: 24px;
+    color: var(--text-2);
+    font-weight: 600;
+  }
+
+  .factory__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: center;
+  }
+  .factory__copy {
+    display: grid;
+    gap: 24px;
+  }
+  .saudi {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 20px;
+    border-radius: var(--r);
+    background: var(--mist);
+  }
+  .saudi__mark {
+    display: grid;
+    place-content: center;
+    text-align: center;
+    flex: none;
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px var(--atlantic), inset 0 0 0 6px var(--mist), inset 0 0 0 7px var(--azure);
+    color: var(--atlantic);
+    font-weight: 700;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    padding: 12px;
+  }
+  .saudi__mark small {
+    font-weight: 500;
+    font-size: 0.62rem;
+    color: var(--text-2);
+  }
+  .saudi h3 {
+    font-size: 1.05rem;
+    margin-block-end: 4px;
+  }
+  .saudi p {
+    color: var(--text-2);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 960px) {
+    .story__grid,
+    .factory__grid,
+    .vm__grid {
+      grid-template-columns: 1fr;
+    }
+    .chain {
+      grid-template-columns: 1fr;
+    }
+    .chain__step:not(:last-child)::after {
+      top: auto;
+      bottom: -12px;
+      inset-inline-start: 28px;
+      inset-inline-end: auto;
+      width: 1px;
+      height: 12px;
+    }
+  }
+  @media (max-width: 640px) {
+    .vals__row {
+      grid-template-columns: 40px 1fr;
+    }
+    .vals__row p {
+      grid-column: 2;
+    }
+    .vals__icon {
+      width: 32px;
+    }
+  }
+</style>

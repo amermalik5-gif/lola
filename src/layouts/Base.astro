@@ -1,0 +1,88 @@
+---
+import '@fontsource/ibm-plex-sans-arabic/400.css';
+import '@fontsource/ibm-plex-sans-arabic/600.css';
+import '@fontsource/ibm-plex-sans-arabic/700.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsApp from '../components/WhatsApp.astro';
+import site from '../../content/site.json';
+import { t, dir, url, other, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+  /** Path without the language prefix, e.g. "products/round-basin-mixer". */
+  path?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  image?: string;
+  /** Start with a solid header (pages without a blue hero). */
+  solidHeader?: boolean;
+}
+
+const { lang, title, description, path = '', jsonLd, image = '/og.png', solidHeader = false } = Astro.props;
+const d = t(lang);
+const desc = description ?? d.meta.description;
+const canonical = new URL(url(lang, path), site.url).href;
+const arHref = new URL(url('ar', path), site.url).href;
+const enHref = new URL(url('en', path), site.url).href;
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Loaloah Industries',
+  alternateName: 'اللؤلؤة للصناعة',
+  url: site.url,
+  logo: new URL('/brand/logo-primary.svg', site.url).href,
+  foundingDate: String(site.founded),
+  email: site.email,
+  telephone: site.phone,
+  address: { '@type': 'PostalAddress', addressCountry: 'SA' },
+  sameAs: site.social.map((s) => s.url),
+};
+const ld = [org, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+---
+<!doctype html>
+<html lang={lang} dir={dir(lang)}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ar" href={arHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="x-default" href={arHref} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#025497" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={d.meta.siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, site.url).href} />
+    <meta property="og:locale" content={d.meta.ogLocale} />
+    <meta property="og:locale:alternate" content={t(other(lang)).meta.ogLocale} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{d.nav.skip}</a>
+    <Header lang={lang} path={path} solid={solidHeader} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} path={path} />
+    <WhatsApp lang={lang} />
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>

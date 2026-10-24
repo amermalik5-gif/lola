@@ -1,0 +1,51 @@
+---
+import { t, type Lang } from '../lib/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+---
+<ol role="list" class="certs" data-reveal-group>
+  {d.certs.map((c, i) => (
+    <li class="certs__row" data-reveal>
+      <span class="certs__n mono">{String(i + 1).padStart(2, '0')}</span>
+      <div>
+        <h3 class="certs__name">{c.name}</h3>
+        <p class="certs__d">{c.d}</p>
+      </div>
+      <span class={`chip chip--${c.status}`}>{d.common.status[c.status as keyof typeof d.common.status]}</span>
+    </li>
+  ))}
+</ol>
+<style>
+  .certs {
+    border-block-start: 1px solid var(--line-strong);
+  }
+  .certs__row {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding-block: 22px;
+    border-block-end: 1px solid var(--line);
+  }
+  .certs__n {
+    font-size: var(--fs-micro);
+    color: var(--text-2);
+  }
+  .certs__name {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .certs__d {
+    color: var(--text-2);
+    font-size: 0.95rem;
+  }
+  @media (max-width: 600px) {
+    .certs__row {
+      grid-template-columns: 1fr auto;
+    }
+    .certs__n {
+      display: none;
+    }
+  }
+</style>

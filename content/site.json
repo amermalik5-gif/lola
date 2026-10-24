@@ -1,0 +1,27 @@
+{
+  "url": "https://www.loaloah.com",
+  "phone": "+966000000000",
+  "phoneDisplay": "+966 000 000 000",
+  "whatsapp": "966000000000",
+  "email": "info@loaloah.com",
+  "address": {
+    "ar": "المصنع: المدينة الصناعية، المملكة العربية السعودية",
+    "en": "Factory: Industrial City, Saudi Arabia"
+  },
+  "mapUrl": "https://maps.google.com/?q=Saudi+Arabia",
+  "mapEmbed": "https://www.google.com/maps?q=Saudi+Arabia&output=embed",
+  "social": [
+    { "name": "Snapchat", "url": "https://www.snapchat.com/add/loaloah" },
+    { "name": "YouTube", "url": "https://www.youtube.com/@loaloah" },
+    { "name": "TikTok", "url": "https://www.tiktok.com/@loaloah" },
+    { "name": "Instagram", "url": "https://www.instagram.com/loaloah" },
+    { "name": "LinkedIn", "url": "https://www.linkedin.com/company/loaloah" }
+  ],
+  "form": {
+    "provider": "netlify",
+    "action": "",
+    "name": "inquiry"
+  },
+  "founded": 2023,
+  "experienceSince": 1996
+}

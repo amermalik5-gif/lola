@@ -1,0 +1,308 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { t, url, other, type Lang } from '../lib/i18n';
+
+interface Props { lang: Lang; path: string; solid?: boolean }
+const { lang, path, solid = false } = Astro.props;
+const d = t(lang);
+const links = [
+  { key: 'products', href: url(lang, 'products') },
+  { key: 'about', href: url(lang, 'about') },
+  { key: 'quality', href: url(lang, 'quality') },
+  { key: 'downloads', href: url(lang, 'downloads') },
+  { key: 'contact', href: url(lang, 'contact') },
+] as const;
+const current = url(lang, path);
+const isActive = (href: string) => (href === url(lang) ? current === href : current.startsWith(href));
+---
+<header class:list={['site-header', { 'is-solid': solid }]} data-header data-always-solid={solid ? '' : undefined}>
+  <div class="site-header__bar wrap">
+    <a class="site-header__logo" href={url(lang)} aria-label={d.meta.siteName}>
+      <Logo variant="white" class="logo-on-dark" />
+      <Logo variant="primary" class="logo-on-light" />
+    </a>
+
+    <nav class="site-nav" aria-label={d.nav.menu}>
+      <ul role="list">
+        {links.map((l) => (
+          <li>
+            <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{d.nav[l.key]}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="lang-switch" href={url(other(lang), path)} hreflang={other(lang)} lang={other(lang)} title={d.nav.switchAria}>
+        <span class="lang-switch__long">{d.nav.switchLabel}</span>
+        <span class="lang-switch__short" aria-hidden="true">{d.nav.switchShort}</span>
+      </a>
+      <a class="btn btn--light site-header__cta" href={url(lang, 'contact')} data-magnetic>
+        {d.nav.quote}
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span class="visually-hidden" data-label-open>{d.nav.menu}</span>
+        <span class="visually-hidden" data-label-close hidden>{d.nav.close}</span>
+        <span class="menu-toggle__lines" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
+    <nav class="wrap" aria-label={d.nav.menu}>
+      <ol role="list">
+        <li><a href={url(lang)}><span class="mono">00</span>{d.nav.home}</a></li>
+        {links.map((l, i) => (
+          <li><a href={l.href}><span class="mono">{String(i + 1).padStart(2, '0')}</span>{d.nav[l.key]}</a></li>
+        ))}
+      </ol>
+      <div class="mobile-menu__foot">
+        <a class="btn btn--light" href={url(lang, 'contact')}>{d.nav.quote}<Icon name="arrow" class="arrow" /></a>
+        <a class="mobile-menu__lang" href={url(other(lang), path)} hreflang={other(lang)} lang={other(lang)}>{d.nav.switchLabel}</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    view-transition-name: site-header;
+    color: #fff;
+    transition: transform 0.5s var(--ease-out), color 0.3s;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: saturate(1.6) blur(16px);
+    -webkit-backdrop-filter: saturate(1.6) blur(16px);
+    border-block-end: 1px solid var(--line);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .site-header.is-solid {
+    color: var(--ink);
+  }
+  .site-header.is-solid::before {
+    opacity: 1;
+  }
+  .site-header.is-hidden:not(.menu-open) {
+    transform: translateY(-100%);
+  }
+  .site-header__bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: var(--header-h);
+  }
+  .site-header__logo {
+    position: relative;
+    display: block;
+    width: 118px;
+    flex: none;
+  }
+  .site-header__logo :global(.logo) {
+    width: 100%;
+    transition: opacity 0.3s;
+  }
+  .site-header__logo :global(.logo-on-light) {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+  .is-solid:not(.menu-open) .site-header__logo :global(.logo-on-light) {
+    opacity: 1;
+  }
+  .is-solid:not(.menu-open) .site-header__logo :global(.logo-on-dark) {
+    opacity: 0;
+  }
+
+  .site-nav {
+    margin-inline-start: auto;
+  }
+  .site-nav ul {
+    display: flex;
+    gap: clamp(18px, 2.2vw, 36px);
+  }
+  .site-nav a {
+    position: relative;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    opacity: 0.86;
+    transition: opacity 0.2s;
+    padding-block: 8px;
+  }
+  .site-nav a::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: var(--origin, left);
+    transition: transform 0.45s var(--ease-out);
+  }
+  :global([dir='rtl']) .site-nav a::after {
+    --origin: right;
+  }
+  .site-nav a:hover,
+  .site-nav a[aria-current='page'] {
+    opacity: 1;
+  }
+  .site-nav a:hover::after,
+  .site-nav a[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .lang-switch {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    padding: 8px 4px;
+    opacity: 0.86;
+  }
+  .lang-switch:hover {
+    opacity: 1;
+  }
+  .lang-switch__short {
+    display: none;
+  }
+  .lang-switch__long {
+    white-space: nowrap;
+  }
+  .site-header__cta {
+    min-height: 44px;
+    padding-inline: 20px;
+    font-size: 0.92rem;
+  }
+  .is-solid .site-header__cta {
+    --bg: var(--atlantic);
+    --fg: #fff;
+  }
+
+  .menu-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    place-items: center;
+  }
+  .menu-toggle__lines {
+    position: relative;
+    width: 22px;
+    height: 10px;
+  }
+  .menu-toggle__lines i {
+    position: absolute;
+    inset-inline: 0;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 0.5s var(--ease-out), top 0.5s var(--ease-out);
+  }
+  .menu-toggle__lines i:first-child {
+    top: 0;
+  }
+  .menu-toggle__lines i:last-child {
+    top: 8.5px;
+  }
+  .menu-open .menu-toggle__lines i:first-child {
+    top: 4.25px;
+    transform: rotate(45deg);
+  }
+  .menu-open .menu-toggle__lines i:last-child {
+    top: 4.25px;
+    transform: rotate(-45deg);
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--grad-radial);
+    color: #fff;
+    padding-block: calc(var(--header-h) + 24px) 32px;
+    overflow-y: auto;
+    clip-path: circle(0 at var(--cx, 90%) 36px);
+    transition: clip-path 0.8s var(--ease-inout);
+  }
+  .mobile-menu.is-open {
+    clip-path: circle(150% at var(--cx, 90%) 36px);
+  }
+  .mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  .mobile-menu ol {
+    display: grid;
+    gap: 4px;
+  }
+  .mobile-menu ol a {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding-block: 10px;
+    border-block-end: 1px solid var(--line-on-dark);
+    font-size: clamp(1.8rem, 8vw, 2.6rem);
+    font-weight: 700;
+    text-decoration: none;
+    line-height: 1.2;
+  }
+  .mobile-menu ol .mono {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--azure-200);
+  }
+  .mobile-menu__foot {
+    margin-block-start: auto;
+    padding-block-start: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .mobile-menu__lang {
+    font-weight: 600;
+  }
+
+  @media (max-width: 1024px) {
+    .site-nav,
+    .site-header__cta {
+      display: none;
+    }
+    .menu-toggle {
+      display: grid;
+    }
+    .site-header__actions {
+      margin-inline-start: auto;
+    }
+  }
+  @media (max-width: 1024px) {
+    .lang-switch__long {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+    .lang-switch__short {
+      display: inline;
+    }
+  }
+</style>
