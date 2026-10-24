@@ -100,14 +100,22 @@ If you change the 3D model, re-export the poster so the hand-off stays seamless.
 
 ## Forms
 
-The contact form posts to **Netlify Forms** by default (`content/site.json → form.provider: "netlify"`),
-with a honeypot field and client-side validation. To use **Formspree** instead, set
-`"provider": "formspree"` and `"action": "https://formspree.io/f/<id>"`.
+Set in `content/site.json → form`:
+
+- `"provider": "formspree"` with `"action": "https://formspree.io/f/<id>"` — posts to Formspree
+  (works on any host, including Railway).
+- `"provider": "formspree"` with an empty `action` — the form validates, then opens WhatsApp with
+  the enquiry filled in. This is the current setting, so the form works before Formspree is set up.
+- `"provider": "netlify"` — Netlify Forms (only when hosted on Netlify).
 Links can pre-fill the form: `/contact/?type=distributor`, `/contact/?product=<slug>`.
 
 ## Deploy
 
-Works on any static host. For Netlify, `netlify.toml` is included (build `npm run build`,
+**Railway** — `railway.json` is included. New Project → Deploy from GitHub repo → pick this repo,
+then Networking → Generate Domain. Railway runs `npm run build`, then `npm start`, which serves
+`dist/` on Railway's `$PORT`. Requires Node 22.12+ (set in `package.json → engines`).
+
+**Other hosts** — works on any static host. For Netlify, `netlify.toml` is included (build `npm run build`,
 publish `dist`). For Vercel or Cloudflare Pages, use the same build command and output folder
 (Netlify Forms only works on Netlify; use Formspree elsewhere).
 
