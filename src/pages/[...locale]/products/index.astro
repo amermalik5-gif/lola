@@ -11,6 +11,7 @@ const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
 const pd = d.products;
 const count = (c?: string) => (c ? products.filter((p) => p.category === c).length : products.length);
+const soonCount = products.filter((p) => p.status === 'soon').length;
 ---
 <Base lang={lang} title={`${pd.title} | ${d.meta.siteName}`} description={pd.description} path="products">
   <PageHero kicker={pd.kicker} title={pd.heading} lead={pd.lead} />
@@ -27,6 +28,11 @@ const count = (c?: string) => (c ? products.filter((p) => p.category === c).leng
               {d.common.categories[c]}<span class="mono">{count(c)}</span>
             </button>
           ))}
+          {soonCount > 0 && (
+            <button type="button" class="filter filter--soon" data-filter="soon" aria-pressed="false">
+              {d.common.status.soon}<span class="mono">{soonCount}</span>
+            </button>
+          )}
         </div>
         <p class="catalog__count" aria-live="polite" data-count-label data-one={pd.countOne} data-many={pd.countMany}>
           <span class="mono" data-count-n>{products.length}</span> {pd.countMany}
@@ -38,7 +44,7 @@ const count = (c?: string) => (c ? products.filter((p) => p.category === c).leng
       <h2 class="visually-hidden">{pd.title}</h2>
       <ul role="list" class="catalog__grid" data-grid>
         {products.map((p) => (
-          <li data-item data-category={p.category}><ProductCard product={p} lang={lang} /></li>
+          <li data-item data-category={p.category} data-status={p.status}><ProductCard product={p} lang={lang} /></li>
         ))}
       </ul>
     </div>
@@ -64,7 +70,7 @@ const count = (c?: string) => (c ? products.filter((p) => p.category === c).leng
     const state = Flip.getState(items);
     let n = 0;
     items.forEach((el) => {
-      const show = cat === 'all' || el.dataset.category === cat;
+      const show = cat === 'all' || el.dataset.category === cat || (cat === 'soon' && el.dataset.status === 'soon');
       el.hidden = !show;
       if (show) n++;
     });
@@ -161,6 +167,10 @@ const count = (c?: string) => (c ? products.filter((p) => p.category === c).leng
     background: var(--atlantic);
     color: #fff;
     box-shadow: none;
+  }
+  .filter--soon[aria-pressed='false'] .mono {
+    background: var(--gold);
+    color: var(--ink);
   }
   .filter[aria-pressed='true'] .mono {
     background: rgba(255, 255, 255, 0.18);

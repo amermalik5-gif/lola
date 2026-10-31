@@ -1,12 +1,11 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import ProductDrawing from '../../../components/ProductDrawing.astro';
 import ProductCard from '../../../components/ProductCard.astro';
 import Swatches from '../../../components/Swatches.astro';
 import Icon from '../../../components/Icon.astro';
 import site from '../../../../content/site.json';
 import { t, url, pick, LANGS, type Lang } from '../../../lib/i18n';
-import { products, specsFor, type Product } from '../../../lib/products';
+import { products, specsFor, labelOf, type Product } from '../../../lib/products';
 
 export function getStaticPaths() {
   return LANGS.flatMap((lang) =>
@@ -25,9 +24,9 @@ const description = pick(p.description, lang)!;
 const specs = specsFor(p, lang);
 const related = products.filter((x) => x.category === p.category && x.slug !== p.slug).slice(0, 4);
 const catLabel = d.common.categories[p.category as keyof typeof d.common.categories];
-const collection = p.collection ? d.common.collections[p.collection as keyof typeof d.common.collections] : null;
+const soon = p.status === 'soon';
 const isMixer = p.category !== 'accessories';
-const waText = `${d.common.whatsappMessage} ${name} (${p.code})`;
+const waText = `${d.common.whatsappMessage} ${labelOf(p, lang)}`;
 const wa = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(waText)}`;
 const quote = `${url(lang, 'contact')}?type=project&product=${encodeURIComponent(p.slug)}`;
 const sheets = [
@@ -40,12 +39,12 @@ const jsonLd = {
   '@type': 'Product',
   name,
   description,
-  sku: p.code,
+  ...(p.code ? { sku: p.code } : {}),
   category: catLabel,
   brand: { '@type': 'Brand', name: 'Loaloah' },
   manufacturer: { '@type': 'Organization', name: 'Loaloah Industries' },
   countryOfOrigin: 'SA',
-  ...(p.images.length ? { image: p.images.map((i) => new URL(i, site.url).href) } : {}),
+  image: p.images.map((i) => new URL(i, site.url).href),
   url: new URL(url(lang, `products/${p.slug}`), site.url).href,
 };
 const crumbs = {
@@ -58,17 +57,13 @@ const crumbs = {
   ],
 };
 ---
-<Base lang={lang} title={`${name} ${p.code} | ${d.meta.siteName}`} description={description} path={`products/${p.slug}`} jsonLd={[jsonLd, crumbs]} solidHeader>
+<Base lang={lang} title={`${name}${p.code ? ` ${p.code}` : ''} | ${d.meta.siteName}`} description={description} path={`products/${p.slug}`} jsonLd={[jsonLd, crumbs]} solidHeader>
   <section class="pdp">
     <div class="wrap pdp__grid">
       <div class="pdp__gallery">
         <div class="pdp__stage">
-          {p.images.length ? (
-            <img src={p.images[0]} alt={name} width="1000" height="1100" decoding="async" />
-          ) : (
-            <ProductDrawing kind={p.drawing.kind as any} shape={p.drawing.shape as any} code={p.code} label={name} />
-          )}
-          <span class="pdp__note">{p.images.length ? '' : d.common.drawingNote}</span>
+          <img src={p.images[0]} alt={name} width="1000" height="1100" decoding="async" fetchpriority="high" />
+          {soon && <span class="pdp__soon">{d.common.status.soon}</span>}
         </div>
         {p.images.length > 1 && (
           <ul role="list" class="pdp__thumbs">
@@ -90,8 +85,8 @@ const crumbs = {
           <p class="kicker">{catLabel}</p>
           <h1 class="pdp__name" data-split data-split-now>{name}</h1>
           <dl class="pdp__ids">
-            <div><dt>{d.common.code}</dt><dd class="mono" dir="ltr">{p.code}</dd></div>
-            {collection && <div><dt>{d.common.collection}</dt><dd>{collection}</dd></div>}
+            {p.code && <div><dt>{d.common.code}</dt><dd class="mono" dir="ltr">{p.code}</dd></div>}
+            {soon && <div><dt>{d.common.availability}</dt><dd>{d.common.status.soon}</dd></div>}
           </dl>
         </div>
 
@@ -105,7 +100,7 @@ const crumbs = {
         )}
 
         <div class="pdp__ctas" data-reveal>
-          <a class="btn" href={quote} data-magnetic>{pd.quote}<Icon name="arrow" class="arrow" /></a>
+          <a class="btn" href={quote} data-magnetic>{soon ? pd.notify : pd.quote}<Icon name="arrow" class="arrow" /></a>
           <a class="btn btn--ghost" href={wa} target="_blank" rel="noopener"><Icon name="whatsapp" class="arrow" />{pd.whatsapp}</a>
         </div>
 
@@ -131,7 +126,7 @@ const crumbs = {
     <div class="window-light"></div>
     <div class="wrap specs-sec__grid">
       <div>
-        <p class="kicker" data-reveal>{p.code}</p>
+        <p class="kicker" data-reveal>{p.code ?? catLabel}</p>
         <h2 class="h-2" data-split>{pd.specs}</h2>
       </div>
       <div>
@@ -143,7 +138,7 @@ const crumbs = {
             </div>
           ))}
         </dl>
-        {isMixer && (
+        {isMixer && !soon && (
           <aside class="cert-note" data-reveal>
             <span class="chip chip--inProgress">{d.common.status.inProgress}</span>
             <div>
@@ -188,22 +183,24 @@ const crumbs = {
   .pdp__stage {
     position: relative;
     border-radius: var(--r-lg);
-    background:
-      radial-gradient(70% 55% at 50% 58%, #fff 0%, transparent 70%),
-      linear-gradient(180deg, var(--mist) 0%, var(--mist-2) 100%);
-    padding: clamp(16px, 4vw, 48px);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
     overflow: hidden;
   }
   .pdp__stage img {
     width: 100%;
     height: auto;
   }
-  .pdp__note {
+  .pdp__soon {
     position: absolute;
-    inset-inline-start: 20px;
-    bottom: 16px;
-    font-size: var(--fs-micro);
-    color: var(--text-2);
+    inset-block-start: 20px;
+    inset-inline-end: 20px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: var(--fs-small);
+    font-weight: 700;
   }
   .pdp__thumbs {
     display: flex;

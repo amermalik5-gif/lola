@@ -4,7 +4,7 @@ import PageHero from '../../components/PageHero.astro';
 import Icon from '../../components/Icon.astro';
 import site from '../../../content/site.json';
 import { t, pick, localeParams, type Lang } from '../../lib/i18n';
-import { products } from '../../lib/products';
+import { products, labelOf } from '../../lib/products';
 
 export const getStaticPaths = localeParams;
 const { lang } = Astro.props as { lang: Lang };
@@ -12,7 +12,7 @@ const d = t(lang);
 const c = d.contact;
 const f = c.form;
 const wa = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(d.common.whatsappMessage)}`;
-const productNames = Object.fromEntries(products.map((p) => [p.slug, `${pick(p.name, lang)} (${p.code})`]));
+const productNames = Object.fromEntries(products.map((p) => [p.slug, labelOf(p, lang)]));
 const action = site.form.provider === 'formspree' && site.form.action ? site.form.action : '/';
 ---
 <Base lang={lang} title={`${c.title} | ${d.meta.siteName}`} description={c.description} path="contact">

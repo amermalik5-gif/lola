@@ -1,7 +1,7 @@
 # Loaloah — corporate website
 
 Bilingual (Arabic default, English) website for **Loaloah Industries · اللؤلؤة للصناعة**.
-Static site built with [Astro](https://astro.build), GSAP + Lenis for motion, and Three.js for the hero.
+Static site built with [Astro](https://astro.build), with GSAP + Lenis for motion.
 
 ```bash
 npm install
@@ -16,7 +16,7 @@ npm run preview   # serve dist/ locally
 | --- | --- | --- |
 | `/` | `/en/` | Home |
 | `/about/` | `/en/about/` | About |
-| `/products/` | `/en/products/` | Products (filter by `?c=basin\|shower\|kitchen\|accessories`) |
+| `/products/` | `/en/products/` | Products (filter by `?c=basin\|shower\|kitchen\|accessories\|soon`) |
 | `/products/<slug>/` | `/en/products/<slug>/` | Product detail |
 | `/quality/` | `/en/quality/` | Quality & certification |
 | `/downloads/` | `/en/downloads/` | Catalogue, guides, datasheets |
@@ -36,36 +36,37 @@ All text lives in `content/`:
 | `content/products.json` | The product range (one entry per product) |
 | `content/site.json` | Phone, WhatsApp, email, address, map, social links, form settings |
 
-### Adding a product
+### Products
 
-Add one entry to `items` in `content/products.json`:
+The range follows **Loaloah Product Catalogue 2026 v3**: names, codes and photos are taken from it.
+Each product is one entry in `items` in `content/products.json`:
 
 ```json
 {
-  "slug": "square-kitchen-mixer",
-  "code": "LA-K201",
-  "category": "kitchen",
-  "collection": "square",
-  "featured": false,
-  "drawing": { "kind": "kitchen", "shape": "square" },
-  "name": { "ar": "خلاط مطبخ مربع", "en": "Square kitchen mixer" },
+  "slug": "b01-35",
+  "code": "B01-35",
+  "category": "basin",
+  "status": "available",
+  "featured": true,
+  "name": { "ar": "خلاط مغسلة بذراع مسطّح", "en": "Flat-Lever Basin Mixer" },
   "description": { "ar": "…", "en": "…" },
   "specs": [{ "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "…", "en": "…" } }],
-  "finishes": ["chrome", "matte-black"],
-  "images": [],
+  "finishes": ["chrome"],
+  "images": ["/products/b01-35.webp"],
   "datasheet": { "ar": "", "en": "" }
 }
 ```
 
+- `category` — `basin`, `shower` (bath & shower), `kitchen` or `accessories`.
+- `status` — `available`, or `soon` for the catalogue's "coming soon" items (gold badge, own filter tab,
+  "notify me" button instead of a quote).
+- `code` — the catalogue code, or `null` where the catalogue has none yet.
 - Mixers (basin / shower / kitchen) automatically get the shared specs in `defaults.mixerSpecs`.
 - `featured: true` puts the product in the home page carousel.
-- **Photos:** put files in `public/products/` (WebP, about 1000×1100) and list them in
-  `images`, e.g. `"/products/square-basin-mixer-chrome.webp"`. The first photo replaces
-  the technical drawing everywhere.
-- **Datasheets:** put PDFs in `public/downloads/` and set e.g. `"ar": "/downloads/LA-B101-ar.pdf"`.
+- **Photos** live in `public/products/` as WebP, 1000×1100 on white. To add or replace one,
+  use the same size and point `images` at it; extra images show as thumbnails.
+- **Datasheets:** put PDFs in `public/downloads/` and set e.g. `"ar": "/downloads/B01-35-ar.pdf"`.
   Until a file is set, the site shows "coming soon" with a request link.
-- `drawing.kind` is one of `basin`, `basin-tall`, `shower`, `bath`, `kitchen`, `hose`, `valve`,
-  `cartridge`; `shape` is `square`, `round`, `oval` or `classic`.
 
 Catalogue and installation-guide PDFs are listed under `downloads.groups` in the language files.
 
@@ -88,15 +89,16 @@ Follows **Loaloah Brand Identity Guidelines V1.0 (Oct 2026)**.
 All motion is in `src/scripts/motion.ts` and switches off for visitors with
 "reduce motion" enabled.
 
-- **Hero** — real-time chrome mixer (`src/scripts/hero3d.ts`), with a pearl drop forming and
-  falling, and live finish switching. A still frame (`public/hero-poster.webp`) shows first; the
-  3D scene loads on the visitor's first scroll, pointer or key press, keeping page load fast.
+- **Hero** — the catalogue cover mixer (`public/hero-mixer.webp`, transparent cut-out) bleeding off the
+  bottom edge, with a band of light sweeping across the chrome only, a slight turn towards the
+  pointer, and a pearl-like drop forming at the spout lip and falling.
 - Smooth scrolling (Lenis), headings revealed line by line (whole words, so Arabic letters stay
   joined), technical drawings that draw themselves, a scroll-velocity marquee, a pinned factory
   process, horizontal product travel, counters, magnetic buttons, and native cross-page
   view transitions.
 
-If you change the 3D model, re-export the poster so the hand-off stays seamless.
+If you swap the hero photo, update the drop position (`.hero__drop` `left`/`top`, as a percentage
+of the image) in `src/pages/[...locale]/index.astro` so it sits at the new spout.
 
 ## Forms
 
@@ -125,10 +127,10 @@ These are placeholders or need sign-off. Each is in `content/` unless noted.
 
 - [ ] Phone, WhatsApp number, email, factory address, map link (`site.json`)
 - [ ] Social media handles (`site.json`); the strategy notes they still need reserving
-- [ ] Product codes — `LA-B101` etc. are placeholders; replace with the real catalogue codes
-- [ ] Product line-up — modelled on the strategy's "10 models" (6 basin, 3 shower, 1 wall mixer
-      with swivel spout); match to the actual models and finishes
-- [ ] Product photography and factory photography (the site shows labelled placeholders)
+- [ ] Codes for the items the catalogue lists without one: Sleek Basin Mixer, Wall-Mounted Kitchen
+      Mixer, and the six coming-soon items
+- [ ] Higher-resolution product photos (the catalogue images are 500–1000 px)
+- [ ] Factory photography (the site shows labelled placeholders)
 - [ ] Cartridge "250,000 cycles" — publish only with the lab report
 - [ ] Warranty length (the site says "written warranty"; the social mock-up shows 10 years)
 - [ ] Certification status (SASO, SABER, ISO 9001, Saudi Made, G-Mark) — update `status` to

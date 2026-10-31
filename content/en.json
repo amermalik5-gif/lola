@@ -36,14 +36,7 @@
     "finishes": {
       "chrome": "Chrome",
       "matte-black": "Matte black",
-      "gold": "Gold",
-      "rose-gold": "Rose gold"
-    },
-    "collections": {
-      "square": "Square",
-      "round": "Round",
-      "oval": "Oval",
-      "classic": "Classic"
+      "gold": "Gold"
     },
     "status": {
       "inProgress": "In progress",
@@ -52,17 +45,16 @@
       "soon": "Coming soon"
     },
     "code": "Code",
-    "collection": "Collection",
     "category": "Category",
     "viewProduct": "View product",
-    "drawingNote": "Illustration · product photos coming soon",
     "photoPending": "Photography pending",
     "whatsappMessage": "Hello, I'd like to ask about Loaloah products.",
     "whatsappAria": "Message us on WhatsApp",
     "madeIn": "Made in Saudi Arabia",
     "madeInSub": "صُنع في السعودية",
     "builtOnTrust": "Built on Trust.",
-    "builtOnTrustSub": "A Foundation of Quality & Reliability"
+    "builtOnTrustSub": "A Foundation of Quality & Reliability",
+    "availability": "Availability"
   },
   "home": {
     "title": "Loaloah Industries | Saudi made, to world-class standards",
@@ -75,7 +67,6 @@
       "lead": "Brass basin and shower mixers, cast, polished, plated and tested in our factory in the Kingdom, and delivered through your regional distributor.",
       "ctaPrimary": "View products",
       "ctaSecondary": "Request a quote",
-      "finishLabel": "Try a finish",
       "facts": [
         {
           "k": "250,000",
@@ -117,8 +108,8 @@
     },
     "featured": {
       "kicker": "Current range",
-      "title": "Ten models in four shapes",
-      "body": "Our collections are named by shape: Square, Round, Oval, Classic. Chrome first, with matte black, gold and rose gold on the lead models.",
+      "title": "Twelve models across three ranges",
+      "body": "Basin, bath and kitchen mixers in chrome, with gold and matte black coming soon.",
       "cta": "All products"
     },
     "process": {
@@ -139,7 +130,7 @@
         },
         {
           "t": "Plating",
-          "d": "Chrome on every model; matte black, gold and rose gold on the lead models."
+          "d": "Chrome on every model, with gold and matte black coming soon."
         },
         {
           "t": "Assembly",
@@ -157,12 +148,12 @@
         "label": "cycles the cartridge is tested to"
       },
       {
-        "value": 10,
-        "label": "models in the current range"
+        "value": 12,
+        "label": "models in the 2026 catalogue"
       },
       {
-        "value": 4,
-        "label": "finishes: chrome, matte black, gold, rose gold"
+        "value": 3,
+        "label": "ranges: basin, bath & shower, kitchen"
       },
       {
         "value": 1996,
@@ -270,7 +261,7 @@
     "description": "Brass basin, bath, shower and kitchen mixers, and spare parts. Saudi made, to world-class standards.",
     "kicker": "Products",
     "heading": "Mixers made and tested in the Kingdom",
-    "lead": "Ten models in four shapes, plus the spare parts you need. Every model in chrome, and the lead models in four finishes.",
+    "lead": "Twelve models across three ranges, as in the 2026 catalogue, with new products and finishes coming soon.",
     "filterLabel": "Filter by category",
     "countOne": "product",
     "countMany": "products",
@@ -284,7 +275,8 @@
     "related": "More from this category",
     "back": "All products",
     "certTitle": "Compliance",
-    "certBody": "The water-efficiency label and certificate of conformity for this model are in progress, and will be published here when issued."
+    "certBody": "The water-efficiency label and certificate of conformity for this model are in progress, and will be published here when issued.",
+    "notify": "Notify me when available"
   },
   "quality": {
     "title": "Quality & Certification",
@@ -329,7 +321,7 @@
       },
       {
         "t": "Finishes",
-        "d": "Chrome on every model; matte black, gold and rose gold on the lead models."
+        "d": "Chrome on every model, with gold and matte black coming soon."
       }
     ],
     "warrantyTitle": "Warranty & service",

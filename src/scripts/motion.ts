@@ -287,61 +287,37 @@ function parallax() {
   });
 }
 
-/* ---------- Home hero ---------- */
+/* ---------- Home hero: the catalogue cover mixer ---------- */
 
-async function hero() {
+function hero() {
   const root = document.querySelector<HTMLElement>('[data-hero]');
   if (!root) return;
-  const intro = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: 0.1 });
-  if (!reduced) {
-    intro
-      .from($$('[data-hero-fade]', root), { y: 24, opacity: 0, duration: 1.4, stagger: 0.08 }, 0.5)
-      .from(root.querySelector('[data-hero-stage]'), { yPercent: 4, duration: 2, ease: 'power3.out' }, 0.1);
+  const product = root.querySelector<HTMLElement>('[data-hero-product]');
+  if (reduced || !product) return;
+
+  gsap
+    .timeline({ defaults: { ease: 'expo.out' }, delay: 0.1 })
+    .from($$('[data-hero-fade]', root), { y: 24, opacity: 0, duration: 1.4, stagger: 0.08 }, 0.5)
+    .from(product, { yPercent: 10, duration: 2.2, ease: 'power3.out' }, 0);
+
+  // a slight turn towards the pointer, as if the mixer were on a turntable
+  if (finePointer) {
+    gsap.set(product, { transformPerspective: 1400 });
+    const rotY = gsap.quickTo(product, 'rotationY', { duration: 1.2, ease: 'power3.out' });
+    const rotX = gsap.quickTo(product, 'rotationX', { duration: 1.2, ease: 'power3.out' });
+    root.addEventListener('pointermove', (e) => {
+      const r = root.getBoundingClientRect();
+      rotY(((e.clientX - r.left) / r.width - 0.5) * 10);
+      rotX(-((e.clientY - r.top) / r.height - 0.5) * 5);
+    });
+    root.addEventListener('pointerleave', () => (rotY(0), rotX(0)));
   }
 
-  const canvas = root.querySelector<HTMLCanvasElement>('[data-hero-canvas]');
-  if (!canvas) return;
-  const hasGL = (() => {
-    try {
-      return !!document.createElement('canvas').getContext('webgl2');
-    } catch {
-      return false;
-    }
-  })();
-  if (!hasGL) return root.classList.add('no-gl');
-
-  // The poster image paints first; the live scene loads on the first sign of
-  // a visitor (scroll, pointer, key) so it never competes with page load.
-  type Scene = Awaited<ReturnType<typeof import('./hero3d')['createHero']>>;
-  let scene: Scene | null = null;
-  let loading: Promise<Scene> | null = null;
-  const load = () =>
-    (loading ??= import('./hero3d').then(({ createHero }) => {
-      scene = createHero(canvas, { reduced });
-      if (root.dataset.finishActive && root.dataset.finishActive !== 'chrome') scene.setFinish(root.dataset.finishActive as never);
-      requestAnimationFrame(() => root.classList.add('gl-ready'));
-      return scene;
-    }));
-  const wake = ['pointermove', 'pointerdown', 'wheel', 'touchstart', 'keydown', 'scroll'] as const;
-  const onWake = () => {
-    wake.forEach((ev) => window.removeEventListener(ev, onWake));
-    load();
-  };
-  wake.forEach((ev) => window.addEventListener(ev, onWake, { passive: true, once: true }));
-
-  $$<HTMLButtonElement>('[data-finish]', root).forEach((btn, _, all) =>
-    btn.addEventListener('click', async () => {
-      all.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-      root.dataset.finishActive = btn.dataset.finish;
-      (scene ?? (await load())).setFinish(btn.dataset.finish as never);
-    }),
-  );
-
-  ScrollTrigger.create({
-    trigger: root,
-    start: 'top top',
-    end: 'bottom top',
-    onUpdate: (self) => scene?.setScroll(self.progress),
+  // the product rises out of frame as the page scrolls
+  gsap.to(root.querySelector('[data-hero-stage]'), {
+    yPercent: -12,
+    ease: 'none',
+    scrollTrigger: { trigger: root, start: 'top top', end: 'bottom top', scrub: true },
   });
 }
 

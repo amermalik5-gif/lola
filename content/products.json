@@ -1,265 +1,703 @@
 {
-  "categories": ["basin", "shower", "kitchen", "accessories"],
-  "finishes": ["chrome", "matte-black", "gold", "rose-gold"],
+  "categories": [
+    "basin",
+    "shower",
+    "kitchen",
+    "accessories"
+  ],
+  "finishes": [
+    "chrome",
+    "matte-black",
+    "gold"
+  ],
   "defaults": {
     "mixerSpecs": [
-      { "label": { "ar": "الجسم", "en": "Body" }, "value": { "ar": "سبيكة نحاس أصفر (براس) بنسبة نحاس ⁦58–62%⁩", "en": "Brass alloy, 58–62% copper" } },
-      { "label": { "ar": "القلب", "en": "Cartridge" }, "value": { "ar": "سيراميك، مختبر لـ 250,000 دورة تشغيل", "en": "Ceramic, tested to 250,000 cycles" } },
-      { "label": { "ar": "المرشّد", "en": "Aerator" }, "value": { "ar": "مرشّد مياه بفلتر", "en": "Water-saving aerator with filter" } },
-      { "label": { "ar": "التوصيل", "en": "Connection" }, "value": "G ½″" },
-      { "label": { "ar": "ترشيد المياه", "en": "Water efficiency" }, "value": { "ar": "بطاقة ترشيد SASO لكل طراز (قيد الإصدار)", "en": "SASO water-efficiency label per model (in progress)" } },
-      { "label": { "ar": "الضمان", "en": "Warranty" }, "value": { "ar": "ضمان مكتوب", "en": "Written warranty" } }
+      {
+        "label": {
+          "ar": "الجسم",
+          "en": "Body"
+        },
+        "value": {
+          "ar": "سبيكة نحاس أصفر (براس) بنسبة نحاس ⁦58–62%⁩",
+          "en": "Brass alloy, 58–62% copper"
+        }
+      },
+      {
+        "label": {
+          "ar": "القلب",
+          "en": "Cartridge"
+        },
+        "value": {
+          "ar": "سيراميك، مختبر لـ 250,000 دورة تشغيل",
+          "en": "Ceramic, tested to 250,000 cycles"
+        }
+      },
+      {
+        "label": {
+          "ar": "المرشّد",
+          "en": "Aerator"
+        },
+        "value": {
+          "ar": "مرشّد مياه بفلتر",
+          "en": "Water-saving aerator with filter"
+        }
+      },
+      {
+        "label": {
+          "ar": "التوصيل",
+          "en": "Connection"
+        },
+        "value": "G ½″"
+      },
+      {
+        "label": {
+          "ar": "ترشيد المياه",
+          "en": "Water efficiency"
+        },
+        "value": {
+          "ar": "بطاقة ترشيد SASO لكل طراز (قيد الإصدار)",
+          "en": "SASO water-efficiency label per model (in progress)"
+        }
+      },
+      {
+        "label": {
+          "ar": "الضمان",
+          "en": "Warranty"
+        },
+        "value": {
+          "ar": "ضمان مكتوب",
+          "en": "Written warranty"
+        }
+      }
     ]
   },
   "items": [
     {
-      "slug": "square-basin-mixer",
-      "code": "LA-B101",
+      "slug": "b01-35",
+      "code": "B01-35",
       "category": "basin",
-      "collection": "square",
+      "status": "available",
       "featured": true,
-      "drawing": { "kind": "basin", "shape": "square" },
-      "name": { "ar": "خلاط مغسلة مربع", "en": "Square basin mixer" },
+      "name": {
+        "ar": "خلاط مغسلة بذراع مسطّح",
+        "en": "Flat-Lever Basin Mixer"
+      },
       "description": {
-        "ar": "خطوط مستقيمة وزوايا محددة لمغاسل الحمامات الحديثة. ذراع واحدة للتحكم بالحرارة والتدفق، ومرشّد مخفي تحت المصب.",
-        "en": "Straight lines and defined edges for modern bathrooms. A single lever controls temperature and flow, with the aerator set flush under the spout."
+        "ar": "ذراع مسطّحة رفيعة فوق جسم أسطواني، ومصبّ مستقيم بنهاية مربّعة.",
+        "en": "A slim flat lever over a cylindrical body, with a straight, square-tipped spout."
       },
       "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "على سطح المغسلة، فتحة واحدة", "en": "Deck-mounted, single hole" } }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على سطح المغسلة، فتحة واحدة",
+            "en": "Deck-mounted, single hole"
+          }
+        }
       ],
-      "finishes": ["chrome", "matte-black", "gold", "rose-gold"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/b01-35.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "square-tall-basin-mixer",
-      "code": "LA-B102",
+      "slug": "b02-35",
+      "code": "B02-35",
       "category": "basin",
-      "collection": "square",
+      "status": "available",
       "featured": true,
-      "drawing": { "kind": "basin-tall", "shape": "square" },
-      "name": { "ar": "خلاط مغسلة طويل مربع", "en": "Square tall basin mixer" },
+      "name": {
+        "ar": "خلاط مغسلة بمصبّ منحني",
+        "en": "Curved Basin Mixer"
+      },
       "description": {
-        "ar": "جسم مرتفع للمغاسل العلوية (الحوض فوق الرخامة)، بالخطوط المربعة نفسها.",
-        "en": "A raised body for vessel basins that sit on the counter, in the same square profile."
+        "ar": "مصبّ ينحني بنعومة نحو الحوض، وذراع بيضاوية فوق جسم أسطواني.",
+        "en": "A spout that curves gently towards the bowl, with an oval lever over a cylindrical body."
       },
       "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "على الرخامة، للمغاسل العلوية", "en": "Counter-mounted, for vessel basins" } }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على سطح المغسلة، فتحة واحدة",
+            "en": "Deck-mounted, single hole"
+          }
+        }
       ],
-      "finishes": ["chrome", "matte-black", "gold", "rose-gold"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/b02-35.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "round-basin-mixer",
-      "code": "LA-B201",
+      "slug": "b03-35",
+      "code": "B03-35",
       "category": "basin",
-      "collection": "round",
+      "status": "available",
       "featured": true,
-      "drawing": { "kind": "basin", "shape": "round" },
-      "name": { "ar": "خلاط مغسلة دائري", "en": "Round basin mixer" },
+      "name": {
+        "ar": "خلاط مغسلة بخطوط مربّعة",
+        "en": "Square Basin Mixer"
+      },
       "description": {
-        "ar": "جسم أسطواني بسيط يناسب أغلب المغاسل، وهو الخيار الأكثر طلبًا في المشاريع السكنية.",
-        "en": "A simple cylindrical body that suits most basins, and the most requested choice for residential projects."
+        "ar": "خطوط مربّعة من القاعدة إلى الذراع، بقاعدة عريضة وذراع مسطّحة بزوايا محددة.",
+        "en": "Square lines from foot to lever, with a wide base and a flat, crisp-edged handle."
       },
       "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "على سطح المغسلة، فتحة واحدة", "en": "Deck-mounted, single hole" } }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على سطح المغسلة، فتحة واحدة",
+            "en": "Deck-mounted, single hole"
+          }
+        }
       ],
-      "finishes": ["chrome", "matte-black", "gold", "rose-gold"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/b03-35.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "round-tall-basin-mixer",
-      "code": "LA-B202",
+      "slug": "b04-35",
+      "code": "B04-35",
       "category": "basin",
-      "collection": "round",
+      "status": "available",
+      "featured": true,
+      "name": {
+        "ar": "خلاط مغسلة بمصبّ ممتد",
+        "en": "Extended-Spout Basin Mixer"
+      },
+      "description": {
+        "ar": "مصبّ طويل يمتد فوق الحوض ليصل إلى منتصفه، يناسب المغاسل الواسعة.",
+        "en": "A long spout that reaches the middle of the bowl, suited to wider basins."
+      },
+      "specs": [
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على سطح المغسلة، فتحة واحدة",
+            "en": "Deck-mounted, single hole"
+          }
+        }
+      ],
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/b04-35.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    {
+      "slug": "b05-35",
+      "code": "B05-35",
+      "category": "basin",
+      "status": "available",
+      "featured": true,
+      "name": {
+        "ar": "خلاط مغسلة عالٍ لأحواض الطاولة",
+        "en": "Tall Basin Mixer"
+      },
+      "description": {
+        "ar": "جسم مرتفع للمغاسل التي تُركّب فوق الطاولة.",
+        "en": "A raised body for vessel basins that sit on the countertop."
+      },
+      "specs": [
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على الطاولة، لأحواض الطاولة",
+            "en": "Countertop, for vessel basins"
+          }
+        }
+      ],
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/b05-35.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    {
+      "slug": "sleek-basin-mixer",
+      "code": null,
+      "category": "basin",
+      "status": "available",
       "featured": false,
-      "drawing": { "kind": "basin-tall", "shape": "round" },
-      "name": { "ar": "خلاط مغسلة طويل دائري", "en": "Round tall basin mixer" },
+      "name": {
+        "ar": "خلاط مغسلة انسيابي",
+        "en": "Sleek Basin Mixer"
+      },
       "description": {
-        "ar": "النسخة المرتفعة من الطراز الدائري للمغاسل العلوية.",
-        "en": "The raised version of the round model, for vessel basins."
+        "ar": "مصبّ مسطّح عريض بخطوط انسيابية، وذراع مسطّحة فوق الجسم.",
+        "en": "A broad, flat spout with flowing lines and a flat lever above the body."
       },
       "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "على الرخامة، للمغاسل العلوية", "en": "Counter-mounted, for vessel basins" } }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على سطح المغسلة، فتحة واحدة",
+            "en": "Deck-mounted, single hole"
+          }
+        }
       ],
-      "finishes": ["chrome"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/sleek-basin-mixer.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "oval-basin-mixer",
-      "code": "LA-B301",
-      "category": "basin",
-      "collection": "oval",
-      "featured": true,
-      "drawing": { "kind": "basin", "shape": "oval" },
-      "name": { "ar": "خلاط مغسلة بيضاوي", "en": "Oval basin mixer" },
-      "description": {
-        "ar": "مقطع بيضاوي ناعم بين الدائري والمربع، بمصب منحدر قليلًا.",
-        "en": "A soft oval section between round and square, with a gently sloping spout."
-      },
-      "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "على سطح المغسلة، فتحة واحدة", "en": "Deck-mounted, single hole" } }
-      ],
-      "finishes": ["chrome"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
-    },
-    {
-      "slug": "classic-basin-mixer",
-      "code": "LA-B401",
-      "category": "basin",
-      "collection": "classic",
-      "featured": false,
-      "drawing": { "kind": "basin", "shape": "classic" },
-      "name": { "ar": "خلاط مغسلة كلاسيك", "en": "Classic basin mixer" },
-      "description": {
-        "ar": "مصب مقوّس وذراع مرتفعة، للحمامات ذات الطابع التقليدي.",
-        "en": "An arched spout and raised lever, for bathrooms with a traditional character."
-      },
-      "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "على سطح المغسلة، فتحة واحدة", "en": "Deck-mounted, single hole" } }
-      ],
-      "finishes": ["chrome"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
-    },
-    {
-      "slug": "square-shower-mixer",
-      "code": "LA-S101",
+      "slug": "c01-35",
+      "code": "C01-35",
       "category": "shower",
-      "collection": "square",
+      "status": "available",
       "featured": true,
-      "drawing": { "kind": "shower", "shape": "square" },
-      "name": { "ar": "خلاط دش مربع", "en": "Square shower mixer" },
+      "name": {
+        "ar": "خلاط حمّام بذراع مسطّح",
+        "en": "Flat-Lever Bath Mixer"
+      },
       "description": {
-        "ar": "خلاط دش ظاهر على الحائط بجسم مربع، يكمّل خلاط المغسلة المربع في الحمام نفسه.",
-        "en": "An exposed wall-mounted shower mixer with a square body, matching the square basin mixer in the same bathroom."
+        "ar": "خلاط حائط للحمّام بذراع مسطّحة، ومصبّ للبانيو ومحوّل للدش.",
+        "en": "A wall-mounted bath mixer with a flat lever, a bath spout and a shower diverter."
       },
       "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "ظاهر على الحائط", "en": "Exposed, wall-mounted" } }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "ظاهر على الحائط، بمحوّل للدش",
+            "en": "Exposed wall-mounted, with shower diverter"
+          }
+        }
       ],
-      "finishes": ["chrome", "matte-black", "gold", "rose-gold"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/c01-35.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "round-shower-mixer",
-      "code": "LA-S201",
+      "slug": "c02-40",
+      "code": "C02-40",
       "category": "shower",
-      "collection": "round",
+      "status": "available",
       "featured": false,
-      "drawing": { "kind": "shower", "shape": "round" },
-      "name": { "ar": "خلاط دش دائري", "en": "Round shower mixer" },
+      "name": {
+        "ar": "خلاط حمّام كلاسيكي",
+        "en": "Classic Bath Mixer"
+      },
       "description": {
-        "ar": "خلاط دش ظاهر بجسم أسطواني ومخرج سفلي لليّ الدش.",
-        "en": "An exposed shower mixer with a cylindrical body and a lower outlet for the shower hose."
+        "ar": "خطوط مستديرة وذراع بيضاوية، مع مصبّ للبانيو ومحوّل للدش.",
+        "en": "Rounded lines and an oval lever, with a bath spout and a shower diverter."
       },
       "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "ظاهر على الحائط", "en": "Exposed, wall-mounted" } }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "ظاهر على الحائط، بمحوّل للدش",
+            "en": "Exposed wall-mounted, with shower diverter"
+          }
+        }
       ],
-      "finishes": ["chrome"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/c02-40.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "classic-bath-shower-mixer",
-      "code": "LA-S401",
+      "slug": "c03-40",
+      "code": "C03-40",
       "category": "shower",
-      "collection": "classic",
+      "status": "available",
       "featured": false,
-      "drawing": { "kind": "bath", "shape": "classic" },
-      "name": { "ar": "خلاط حمام ودش كلاسيك", "en": "Classic bath & shower mixer" },
+      "name": {
+        "ar": "خلاط حمّام بخطوط مربّعة",
+        "en": "Square Bath Mixer"
+      },
       "description": {
-        "ar": "خلاط حائط بمصب للبانيو ومحوّل للدش، بطابع كلاسيكي.",
-        "en": "A wall mixer with a bath spout and a shower diverter, in a classic style."
+        "ar": "جسم بخطوط مربّعة ومصبّ مسطّح، مع محوّل للدش.",
+        "en": "A square-lined body and flat spout, with a shower diverter."
       },
       "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "ظاهر على الحائط، بمحوّل", "en": "Exposed, wall-mounted, with diverter" } }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "ظاهر على الحائط، بمحوّل للدش",
+            "en": "Exposed wall-mounted, with shower diverter"
+          }
+        }
       ],
-      "finishes": ["chrome"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/c03-40.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "swivel-wall-sink-mixer",
-      "code": "LA-K101",
+      "slug": "c04-40",
+      "code": "C04-40",
+      "category": "shower",
+      "status": "available",
+      "featured": false,
+      "name": {
+        "ar": "خلاط حمّام بجسم مستدير",
+        "en": "Round-Body Bath Mixer"
+      },
+      "description": {
+        "ar": "جسم مستدير ممتلئ وذراع مرتفعة، مع مصبّ للبانيو ومحوّل للدش.",
+        "en": "A full, rounded body and raised lever, with a bath spout and a shower diverter."
+      },
+      "specs": [
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "ظاهر على الحائط، بمحوّل للدش",
+            "en": "Exposed wall-mounted, with shower diverter"
+          }
+        }
+      ],
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/c04-40.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    {
+      "slug": "d01-40",
+      "code": "D01-40",
+      "category": "shower",
+      "status": "available",
+      "featured": false,
+      "name": {
+        "ar": "خلاط دش جداري",
+        "en": "Wall Shower Mixer"
+      },
+      "description": {
+        "ar": "خلاط دش ظاهر على الحائط، بمخرج سفلي لخرطوم الدش.",
+        "en": "An exposed wall-mounted shower mixer with a lower outlet for the shower hose."
+      },
+      "specs": [
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "ظاهر على الحائط",
+            "en": "Exposed wall-mounted"
+          }
+        }
+      ],
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/d01-40.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    {
+      "slug": "kitchen-wall-mixer",
+      "code": null,
       "category": "kitchen",
-      "collection": "round",
+      "status": "available",
       "featured": true,
-      "drawing": { "kind": "kitchen", "shape": "round" },
-      "name": { "ar": "خلاط حائط بمصب متحرك", "en": "Wall sink mixer, swivel spout" },
+      "name": {
+        "ar": "خلاط مطبخ جداري بمصبّ دوّار",
+        "en": "Wall-Mounted Kitchen Mixer"
+      },
       "description": {
-        "ar": "خلاط حائط بمصب طويل يتحرك يمينًا ويسارًا، لأحواض المطبخ وغرف الغسيل.",
-        "en": "A wall mixer with a long spout that swings left and right, for kitchen and utility sinks."
+        "ar": "خلاط جداري بمصبّ طويل يدور يمينًا ويسارًا فوق حوض المطبخ.",
+        "en": "A wall mixer with a long spout that swings left and right over the kitchen sink."
       },
       "specs": [
-        { "label": { "ar": "التركيب", "en": "Mounting" }, "value": { "ar": "على الحائط", "en": "Wall-mounted" } },
-        { "label": { "ar": "المصب", "en": "Spout" }, "value": { "ar": "متحرك", "en": "Swivel" } }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على الحائط، بمصبّ دوّار",
+            "en": "Wall-mounted, swivel spout"
+          }
+        }
       ],
-      "finishes": ["chrome"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "chrome"
+      ],
+      "images": [
+        "/products/kitchen-wall-mixer.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "braided-flexible-hose",
-      "code": "LA-A101",
-      "category": "accessories",
-      "collection": null,
+      "slug": "gold-basin-mixer",
+      "code": null,
+      "category": "basin",
+      "status": "soon",
       "featured": false,
-      "drawing": { "kind": "hose" },
-      "name": { "ar": "لّي توصيل مجدول", "en": "Braided flexible hose" },
+      "name": {
+        "ar": "خلاط مغسلة ذهبي",
+        "en": "Gold Basin Mixer"
+      },
       "description": {
-        "ar": "لّي توصيل بغلاف مجدول من الستانلس ستيل، يربط الخلاط بمحبس الزاوية.",
-        "en": "A stainless-steel braided connector that links the mixer to the angle valve."
+        "ar": "خلاط مغسلة بخطوط مربّعة وتشطيب ذهبي.",
+        "en": "A square-lined basin mixer in a gold finish."
       },
       "specs": [
-        { "label": { "ar": "الغلاف", "en": "Braid" }, "value": { "ar": "ستانلس ستيل 304", "en": "Stainless steel 304" } },
-        { "label": { "ar": "اختبار الضغط", "en": "Pressure test" }, "value": "30 bar @ 90°C · 60 bar @ 23°C" }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على سطح المغسلة، فتحة واحدة",
+            "en": "Deck-mounted, single hole"
+          }
+        }
       ],
-      "finishes": ["chrome"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "gold"
+      ],
+      "images": [
+        "/products/gold-basin-mixer.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "angle-valve",
-      "code": "LA-A201",
-      "category": "accessories",
-      "collection": null,
+      "slug": "matte-black-basin-mixer",
+      "code": null,
+      "category": "basin",
+      "status": "soon",
       "featured": false,
-      "drawing": { "kind": "valve" },
-      "name": { "ar": "محبس زاوية", "en": "Angle valve" },
+      "name": {
+        "ar": "خلاط مغسلة أسود مطفي",
+        "en": "Matte Black Basin Mixer"
+      },
       "description": {
-        "ar": "محبس بزاوية 90° لفصل المياه عن الخلاط عند الصيانة.",
-        "en": "A 90° stop valve that isolates the mixer for maintenance."
+        "ar": "خلاط مغسلة بذراع مسطّحة وتشطيب أسود مطفي.",
+        "en": "A flat-lever basin mixer in a matte black finish."
       },
       "specs": [
-        { "label": { "ar": "التوصيل", "en": "Connection" }, "value": "G ½″ × G ½″" }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على سطح المغسلة، فتحة واحدة",
+            "en": "Deck-mounted, single hole"
+          }
+        }
       ],
-      "finishes": ["chrome"],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "finishes": [
+        "matte-black"
+      ],
+      "images": [
+        "/products/matte-black-basin-mixer.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     },
     {
-      "slug": "ceramic-cartridge",
-      "code": "LA-A301",
-      "category": "accessories",
-      "collection": null,
+      "slug": "black-slim-basin-mixer",
+      "code": null,
+      "category": "basin",
+      "status": "soon",
       "featured": false,
-      "drawing": { "kind": "cartridge" },
-      "name": { "ar": "قلب خلاط سيراميك", "en": "Ceramic cartridge" },
+      "name": {
+        "ar": "خلاط مغسلة أسود بذراع رفيع",
+        "en": "Black Basin Mixer · Slim"
+      },
       "description": {
-        "ar": "قطعة الغيار الأصلية لخلاطات اللؤلؤة، متوفرة لدى موزع منطقتك.",
-        "en": "The original replacement part for Loaloah mixers, stocked by your regional distributor."
+        "ar": "خلاط مغسلة أسود بذراع رفيعة مرتفعة.",
+        "en": "A black basin mixer with a slim, raised lever."
       },
       "specs": [
-        { "label": { "ar": "الاختبار", "en": "Tested" }, "value": { "ar": "250,000 دورة تشغيل", "en": "250,000 cycles" } }
+        {
+          "label": {
+            "ar": "التركيب",
+            "en": "Mounting"
+          },
+          "value": {
+            "ar": "على سطح المغسلة، فتحة واحدة",
+            "en": "Deck-mounted, single hole"
+          }
+        }
       ],
+      "finishes": [
+        "matte-black"
+      ],
+      "images": [
+        "/products/black-slim-basin-mixer.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    {
+      "slug": "gunmetal-angle-valve",
+      "code": null,
+      "category": "accessories",
+      "status": "soon",
+      "featured": false,
+      "name": {
+        "ar": "محبس زاوية رمادي معدني",
+        "en": "Gunmetal Angle Valve"
+      },
+      "description": {
+        "ar": "محبس زاوية بجسم مربّع وتشطيب رمادي معدني.",
+        "en": "A square-bodied angle valve in a gunmetal finish."
+      },
+      "specs": [],
       "finishes": [],
-      "images": [],
-      "datasheet": { "ar": "", "en": "" }
+      "images": [
+        "/products/gunmetal-angle-valve.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    {
+      "slug": "shower-hose-silver",
+      "code": null,
+      "category": "accessories",
+      "status": "soon",
+      "featured": false,
+      "name": {
+        "ar": "خرطوم دش فضي",
+        "en": "Shower Hose · Silver"
+      },
+      "description": {
+        "ar": "خرطوم دش مرن بلون فضي.",
+        "en": "A flexible shower hose in silver."
+      },
+      "specs": [],
+      "finishes": [],
+      "images": [
+        "/products/shower-hose-silver.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
+    },
+    {
+      "slug": "shower-hose-black",
+      "code": null,
+      "category": "accessories",
+      "status": "soon",
+      "featured": false,
+      "name": {
+        "ar": "خرطوم دش أسود",
+        "en": "Shower Hose · Black"
+      },
+      "description": {
+        "ar": "خرطوم دش مرن بلون أسود.",
+        "en": "A flexible shower hose in black."
+      },
+      "specs": [],
+      "finishes": [],
+      "images": [
+        "/products/shower-hose-black.webp"
+      ],
+      "datasheet": {
+        "ar": "",
+        "en": ""
+      }
     }
   ]
 }

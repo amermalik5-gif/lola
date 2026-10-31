@@ -8,17 +8,20 @@ import CertList from '../../components/CertList.astro';
 import PhotoSlot from '../../components/PhotoSlot.astro';
 import DistributorCTA from '../../components/DistributorCTA.astro';
 import { t, url, localeParams, type Lang } from '../../lib/i18n';
-import { featured } from '../../lib/products';
+import { featured, bySlug } from '../../lib/products';
 import productData from '../../../content/products.json';
 
 export const getStaticPaths = localeParams;
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
 const h = d.home;
+// The catalogue cover product leads the hero.
+const heroProduct = bySlug('sleek-basin-mixer')!;
+const heroName = heroProduct.name[lang];
 ---
 <Base lang={lang} title={h.title}>
   <!-- ============ HERO ============ -->
-  <section class="hero on-dark" data-hero data-finish-active="chrome">
+  <section class="hero on-dark" data-hero>
     <PetalLines class="hero__petals" filled={2} />
     <div class="wrap hero__grid">
       <div class="hero__copy">
@@ -39,19 +42,15 @@ const h = d.home;
       </div>
 
       <div class="hero__stage" data-hero-stage>
-        <img class="hero__poster" src="/hero-poster.webp" alt="" width="1224" height="1286" fetchpriority="high" decoding="async" />
-        <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
-        <div class="hero__finishes" role="group" aria-label={h.hero.finishLabel} data-hero-fade>
-          <span class="hero__finishes-label">{h.hero.finishLabel}</span>
-          <div class="hero__finish-btns">
-            {productData.finishes.map((f, i) => (
-              <button type="button" class="finish-btn" data-finish={f} aria-pressed={i === 0 ? 'true' : 'false'}>
-                <span class={`swatch swatch--${f}`} aria-hidden="true"></span>
-                <span class="finish-btn__label">{d.common.finishes[f as keyof typeof d.common.finishes]}</span>
-              </button>
-            ))}
-          </div>
+        <div class="hero__product" data-hero-product>
+          <img class="hero__img" src="/hero-mixer.webp" alt={heroName} width="902" height="856" fetchpriority="high" decoding="async" />
+          <span class="hero__sheen" aria-hidden="true"></span>
+          <span class="hero__drop" aria-hidden="true"></span>
         </div>
+        <a class="hero__tag" href={url(lang, `products/${heroProduct.slug}`)} data-hero-fade>
+          <span class="hero__tag-k">{d.common.viewProduct}</span>
+          <span class="hero__tag-n" dir="auto">{heroName}</span>
+        </a>
       </div>
     </div>
   </section>
@@ -271,84 +270,97 @@ const h = d.home;
     color: var(--text-on-dark-2);
   }
 
+  /* The product photo bleeds off the bottom edge, as on the catalogue cover. */
   .hero__stage {
     position: relative;
-    aspect-ratio: 1 / 1.05;
+    align-self: end;
+    margin-block-end: -72px;
+    direction: ltr;
+  }
+  .hero__product {
+    position: relative;
+    width: 108%;
+    margin-inline-start: -4%;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .hero__img {
+    display: block;
     width: 100%;
+    height: auto;
+    filter: drop-shadow(0 50px 60px rgba(1, 20, 45, 0.45));
   }
-  .hero__canvas,
-  .hero__poster {
+  /* a band of light travelling across the chrome only */
+  .hero__sheen {
     position: absolute;
-    inset: -6% -10% 6%;
-    width: 120%;
-    height: 100%;
-    object-fit: contain;
+    inset: 0;
+    -webkit-mask: url('/hero-mixer.webp') center / 100% 100% no-repeat;
+    mask: url('/hero-mixer.webp') center / 100% 100% no-repeat;
+    background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.9) 50%, transparent 58%) no-repeat;
+    background-size: 260% 100%;
+    background-position: 160% 0;
+    mix-blend-mode: soft-light;
+    animation: sheen 7s var(--ease-inout) 1.2s infinite;
+    pointer-events: none;
   }
-  .hero__canvas {
-    opacity: 0;
-    transition: opacity 1.2s var(--ease-out);
+  @keyframes sheen {
+    0% { background-position: 160% 0; }
+    40%, 100% { background-position: -60% 0; }
   }
-  .hero__poster {
-    transition: opacity 1.2s var(--ease-out);
-  }
-  .gl-ready .hero__canvas {
-    opacity: 1;
-  }
-  .gl-ready .hero__poster {
-    opacity: 0;
-  }
-  .hero__finishes {
+  /* the pearl: a drop forms at the spout lip and falls */
+  .hero__drop {
     position: absolute;
-    inset-inline: 0;
-    bottom: 0;
+    left: 7.3%;
+    top: 44.4%;
+    width: 2.1%;
+    aspect-ratio: 1;
+    margin-left: -1.05%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 34% 30%, #fff 0 10%, #f4f8fc 22%, #d4e7f5 46%, #a6c8e4 72%, #6f9fc8 100%);
+    box-shadow: inset -1px -2px 4px rgba(2, 84, 151, 0.35), 0 0 12px rgba(255, 255, 255, 0.55);
+    transform-origin: 50% 0;
+    animation: pearl 5.2s cubic-bezier(0.5, 0, 0.75, 0) 0.8s infinite;
+    opacity: 0;
+  }
+  .hero__drop::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: conic-gradient(from 40deg, rgba(255, 190, 210, 0.45), rgba(170, 220, 255, 0.45), rgba(255, 245, 200, 0.45), rgba(255, 190, 210, 0.45));
+    mix-blend-mode: soft-light;
+  }
+  @keyframes pearl {
+    0% { opacity: 1; transform: translateY(0) scale(0); }
+    34% { transform: translateY(0) scale(1, 1.12); animation-timing-function: ease-in-out; }
+    50% { transform: translateY(8%) scale(1, 1.16); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+    66% { opacity: 1; transform: translateY(2600%) scale(0.85, 1.4); }
+    67%, 100% { opacity: 0; transform: translateY(2600%) scale(0.85, 1.4); }
+  }
+  .hero__tag {
+    position: absolute;
+    top: 6%;
+    left: 4%;
     display: grid;
-    justify-items: center;
-    gap: 12px;
-  }
-  .no-gl .hero__finishes {
-    display: none;
-  }
-  .hero__finishes-label {
-    font-size: var(--fs-micro);
-    color: var(--text-on-dark-2);
-    font-weight: 600;
-  }
-  .hero__finish-btns {
-    display: flex;
-    gap: 6px;
-    padding: 6px;
-    border-radius: 999px;
+    gap: 2px;
+    padding: 12px 18px;
+    border-radius: var(--r);
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+    text-decoration: none;
+    transition: background-color 0.3s;
   }
-  .finish-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    height: 40px;
-    padding-inline: 10px 14px;
-    border: 0;
-    border-radius: 999px;
-    background: transparent;
-    color: #fff;
-    font-size: var(--fs-small);
+  .hero__tag:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .hero__tag-k {
+    font-size: var(--fs-micro);
+    color: var(--text-on-dark-2);
+  }
+  .hero__tag-n {
     font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  .finish-btn .swatch {
-    width: 18px;
-    height: 18px;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
-  }
-  .finish-btn[aria-pressed='true'] {
-    background: #fff;
-    color: var(--atlantic);
-  }
-  .finish-btn:not([aria-pressed='true']):hover {
-    background: rgba(255, 255, 255, 0.14);
   }
 
   @media (max-width: 1024px) {
@@ -360,25 +372,19 @@ const h = d.home;
       grid-template-columns: 1fr;
     }
     .hero__stage {
-      aspect-ratio: 1 / 1;
-      max-width: 560px;
+      width: 100%;
+      max-width: 620px;
       margin-inline: auto;
-      margin-block-start: -12px;
+      margin-block: 8px -56px;
     }
   }
   @media (max-width: 560px) {
-    .finish-btn__label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-    }
-    .finish-btn {
-      padding: 0 11px;
-    }
     .hero__facts {
       gap: 14px 24px;
+    }
+    .hero__tag {
+      top: 2%;
+      padding: 10px 14px;
     }
   }
 

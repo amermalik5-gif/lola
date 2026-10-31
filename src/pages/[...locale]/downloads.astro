@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import Icon from '../../components/Icon.astro';
 import { t, url, pick, localeParams, type Lang } from '../../lib/i18n';
-import { products } from '../../lib/products';
+import { available as products, labelOf } from '../../lib/products';
 
 export const getStaticPaths = localeParams;
 const { lang } = Astro.props as { lang: Lang };
@@ -55,14 +55,14 @@ const request = (title: string) => `${contact}?type=other&file=${encodeURICompon
                 <span class="file__icon"><Icon name="file" /></span>
                 <div class="file__meta">
                   <a class="file__name" href={url(lang, `products/${p.slug}`)}>{name}</a>
-                  <span class="file__sub"><span class="mono" dir="ltr">{p.code}</span> · PDF · {langLabel(lang)}</span>
+                  <span class="file__sub">{p.code && <><span class="mono" dir="ltr">{p.code}</span> · </>}PDF · {langLabel(lang)}</span>
                 </div>
                 {file ? (
                   <a class="btn file__btn" href={file} download><Icon name="download" class="arrow" />{dl.download}</a>
                 ) : (
                   <>
                     <span class="chip">{d.common.status.soon}</span>
-                    <a class="link-arrow file__req" href={request(`${p.code} ${name}`)}>{dl.request}<Icon name="arrow" /></a>
+                    <a class="link-arrow file__req" href={request(labelOf(p, lang))}>{dl.request}<Icon name="arrow" /></a>
                   </>
                 )}
               </li>
