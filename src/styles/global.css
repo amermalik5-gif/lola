@@ -455,6 +455,9 @@ textarea {
     translate: 4% 1%;
   }
 }
+.window-light.is-paused::before {
+  animation-play-state: paused;
+}
 .section > .wrap,
 .section > *:not(.window-light):not(.petals-bg) {
   position: relative;

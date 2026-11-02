@@ -13,12 +13,20 @@ const $$ = <T extends Element = HTMLElement>(sel: string, root: ParentNode = doc
 /* ---------- Smooth scroll ---------- */
 
 let lenis: Lenis | null = null;
+/** Set while a pinned section sits under the header, so the header doesn't hide and leave a gap. */
+let holdHeader = false;
+let refreshHeader = () => {};
 if (!reduced) {
   lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 0.95 });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => lenis!.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
 }
+/** Page scripts scroll through Lenis when it is running, so the two never disagree. */
+export function scrollToY(y: number) {
+  lenis ? lenis.scrollTo(y, { immediate: true, force: true }) : window.scrollTo({ top: y, behavior: 'instant' });
+}
+(window as unknown as { __scrollToY: typeof scrollToY }).__scrollToY = scrollToY;
 
 /* ---------- Header: solid after scrolling, hides on the way down ---------- */
 
@@ -30,13 +38,19 @@ function header() {
   const update = () => {
     const y = window.scrollY;
     el.classList.toggle('is-solid', always || y > 24);
-    if (y > 480 && y > last + 2) el.classList.add('is-hidden');
-    if (y < last - 2 || y <= 480) el.classList.remove('is-hidden');
+    if (y > 480 && y > last + 2 && !holdHeader) el.classList.add('is-hidden');
+    if (y < last - 2 || y <= 480 || holdHeader) el.classList.remove('is-hidden');
     document.documentElement.classList.toggle('header-hidden', el.classList.contains('is-hidden'));
     last = y;
   };
   update();
+  refreshHeader = update;
   window.addEventListener('scroll', update, { passive: true });
+  // keyboard users tabbing into a hidden header bring it back
+  el.addEventListener('focusin', () => {
+    el.classList.remove('is-hidden');
+    document.documentElement.classList.remove('header-hidden');
+  });
 
   const toggle = el.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const menu = el.querySelector<HTMLElement>('[data-mobile-menu]');
@@ -63,6 +77,8 @@ function header() {
       setTimeout(() => !menu.classList.contains('is-open') && (menu.hidden = true), 800);
     }
   };
+  // a page restored from the back/forward cache must not come back with the menu open
+  window.addEventListener('pageshow', (e) => e.persisted && toggle.getAttribute('aria-expanded') === 'true' && setOpen(false));
   toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
   document.addEventListener('keydown', (e) => e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true' && (setOpen(false), toggle.focus()));
 }
@@ -187,15 +203,16 @@ function marquees() {
     track.innerHTML += track.innerHTML;
     // the track is laid out LTR; Arabic pages travel the other way
     const tween = gsap.fromTo(track, { xPercent: rtl ? -50 : 0 }, { xPercent: rtl ? 0 : -50, duration: 38, ease: 'none', repeat: -1 });
-    let boost = 1;
+    // scroll speed pushes the marquee; it eases back to cruising speed on its own
+    const settle = gsap.quickTo(tween, 'timeScale', { duration: 1.2, ease: 'power2.out' });
     ScrollTrigger.create({
       trigger: root,
       start: 'top bottom',
       end: 'bottom top',
       onUpdate: (self) => {
-        boost = 1 + Math.min(Math.abs(self.getVelocity()) / 300, 6);
-        tween.timeScale(boost * (self.direction === 1 ? 1 : -1));
-        gsap.to(tween, { timeScale: self.direction === 1 ? 1 : -1, duration: 1.2, ease: 'power2.out', overwrite: true });
+        const dir = self.direction === 1 ? 1 : -1;
+        tween.timeScale(dir * (1 + Math.min(Math.abs(self.getVelocity()) / 300, 6)));
+        settle(dir);
       },
     });
   });
@@ -241,6 +258,7 @@ function processSteps() {
       end: () => `+=${steps.length * window.innerHeight * 0.55}`,
       pin: true,
       scrub: true,
+      refreshPriority: 1,
       onUpdate: (self) => {
         const i = Math.min(steps.length - 1, Math.floor(self.progress * steps.length));
         setActive(i);
@@ -272,6 +290,12 @@ function hscroll() {
         pin: true,
         scrub: 1,
         invalidateOnRefresh: true,
+        // pins first, so every trigger below includes their scroll length
+        refreshPriority: 1,
+        onToggle: (self) => {
+          holdHeader = self.isActive;
+          refreshHeader();
+        },
       },
     });
   });
@@ -321,19 +345,29 @@ function hero() {
   });
 }
 
+/* ---------- Pause looping decoration while it is off-screen ---------- */
+
+function pauseOffscreen() {
+  const io = new IntersectionObserver((entries) =>
+    entries.forEach((e) => (e.target as HTMLElement).classList.toggle('is-paused', !e.isIntersecting)),
+  );
+  $$('[data-hero], .window-light').forEach((el) => io.observe(el));
+}
+
 /* ---------- Boot ---------- */
 
 header();
+hscroll();
+processSteps();
 reveals();
 drawings();
 petals();
 counters();
 marquees();
 magnetic();
-processSteps();
-hscroll();
 parallax();
 hero();
+pauseOffscreen();
 document.fonts.ready.then(() => {
   splitHeadings();
   ScrollTrigger.refresh();

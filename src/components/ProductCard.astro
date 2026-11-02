@@ -4,15 +4,27 @@ import Icon from './Icon.astro';
 import { t, url, pick, type Lang } from '../lib/i18n';
 import type { Product } from '../lib/products';
 
-interface Props { product: Product; lang: Lang; class?: string }
-const { product: p, lang, class: cls } = Astro.props;
+interface Props { product: Product; lang: Lang; class?: string; priority?: boolean }
+const { product: p, lang, class: cls, priority = false } = Astro.props;
+const src = p.images[0];
+const small = src.replace(/\.webp$/, '-500.webp');
 const d = t(lang);
 const name = pick(p.name, lang)!;
 ---
 <article class:list={['pcard', cls]} data-category={p.category}>
   <a class="pcard__link" href={url(lang, `products/${p.slug}`)}>
     <div class="pcard__media">
-      <img src={p.images[0]} alt={name} loading="lazy" decoding="async" width="1000" height="1100" />
+      <img
+        src={small}
+        srcset={`${small} 500w, ${src} 1000w`}
+        sizes="(max-width: 720px) 50vw, (max-width: 1024px) 33vw, 340px"
+        alt={name}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : undefined}
+        decoding="async"
+        width="1000"
+        height="1100"
+      />
       {p.status === 'soon' && <span class="pcard__soon">{d.common.status.soon}</span>}
       <span class="pcard__cat">{d.common.categoriesShort[p.category as keyof typeof d.common.categoriesShort]}</span>
     </div>
@@ -70,8 +82,7 @@ const name = pick(p.name, lang)!;
     inset-inline-start: 14px;
     padding: 5px 11px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.86);
-    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.94);
     font-size: var(--fs-micro);
     font-weight: 600;
     color: var(--atlantic);

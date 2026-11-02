@@ -43,8 +43,8 @@ const soonCount = products.filter((p) => p.status === 'soon').length;
     <div class="wrap">
       <h2 class="visually-hidden">{pd.title}</h2>
       <ul role="list" class="catalog__grid" data-grid>
-        {products.map((p) => (
-          <li data-item data-category={p.category} data-status={p.status}><ProductCard product={p} lang={lang} /></li>
+        {products.map((p, i) => (
+          <li data-item data-category={p.category} data-status={p.status}><ProductCard product={p} lang={lang} priority={i < 4} /></li>
         ))}
       </ul>
     </div>
@@ -64,10 +64,24 @@ const soonCount = products.filter((p) => p.status === 'soon').length;
   const nEl = document.querySelector<HTMLElement>('[data-count-n]')!;
   const label = document.querySelector<HTMLElement>('[data-count-label]')!;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const grid = document.querySelector<HTMLElement>('[data-grid]')!;
+  const bar = document.querySelector<HTMLElement>('.catalog__bar')!;
+  const scrollToY = (y: number) =>
+    (window as unknown as { __scrollToY?: (y: number) => void }).__scrollToY?.(y) ?? window.scrollTo({ top: y, behavior: 'instant' });
+
+  /** If the reader is already down in the grid, bring the top of the results back under the filter bar. */
+  function keepResultsInView() {
+    const gridTop = grid.getBoundingClientRect().top + window.scrollY;
+    const offset = bar.offsetHeight + 16;
+    if (window.scrollY > gridTop - offset) scrollToY(gridTop - offset);
+  }
 
   function apply(cat: string, animate = true) {
     buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === cat)));
+    if (animate) keepResultsInView();
     const state = Flip.getState(items);
+    // hold the grid's height while cards animate out, so the page doesn't collapse under the reader
+    grid.style.minHeight = `${grid.offsetHeight}px`;
     let n = 0;
     items.forEach((el) => {
       const show = cat === 'all' || el.dataset.category === cat || (cat === 'soon' && el.dataset.status === 'soon');
@@ -84,7 +98,10 @@ const soonCount = products.filter((p) => p.status === 'soon').length;
         stagger: 0.03,
         onEnter: (els) => gsap.fromTo(els, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', stagger: 0.04 }),
         onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.96, duration: 0.3 }),
+        onComplete: () => (grid.style.minHeight = ''),
       });
+    } else {
+      grid.style.minHeight = '';
     }
     const url = new URL(location.href);
     cat === 'all' ? url.searchParams.delete('c') : url.searchParams.set('c', cat);

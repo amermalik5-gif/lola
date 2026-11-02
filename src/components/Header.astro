@@ -79,8 +79,6 @@ const isActive = (href: string) => (href === url(lang) ? current === href : curr
     position: absolute;
     inset: 0;
     background: rgba(255, 255, 255, 0.86);
-    backdrop-filter: saturate(1.6) blur(16px);
-    -webkit-backdrop-filter: saturate(1.6) blur(16px);
     border-block-end: 1px solid var(--line);
     opacity: 0;
     transition: opacity 0.35s;
@@ -90,6 +88,9 @@ const isActive = (href: string) => (href === url(lang) ? current === href : curr
   }
   .site-header.is-solid::before {
     opacity: 1;
+    /* blur only once the bar is solid; a transparent header never needs it */
+    backdrop-filter: saturate(1.6) blur(16px);
+    -webkit-backdrop-filter: saturate(1.6) blur(16px);
   }
   .site-header.is-hidden:not(.menu-open) {
     transform: translateY(-100%);

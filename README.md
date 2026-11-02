@@ -63,8 +63,9 @@ Each product is one entry in `items` in `content/products.json`:
 - `code` — the catalogue code, or `null` where the catalogue has none yet.
 - Mixers (basin / shower / kitchen) automatically get the shared specs in `defaults.mixerSpecs`.
 - `featured: true` puts the product in the home page carousel.
-- **Photos** live in `public/products/` as WebP, 1000×1100 on white. To add or replace one,
-  use the same size and point `images` at it; extra images show as thumbnails.
+- **Photos** live in `public/products/` as WebP, 1000×1100 on white, each with a 500×550 copy named
+  `<name>-500.webp` (used on phones). To add or replace one, provide both sizes and point `images`
+  at the large one; extra images show as thumbnails.
 - **Datasheets:** put PDFs in `public/downloads/` and set e.g. `"ar": "/downloads/B01-35-ar.pdf"`.
   Until a file is set, the site shows "coming soon" with a request link.
 

@@ -291,6 +291,10 @@ const heroName = heroProduct.name[lang];
     filter: drop-shadow(0 50px 60px rgba(1, 20, 45, 0.45));
   }
   /* a band of light travelling across the chrome only */
+  :global(.hero.is-paused) .hero__sheen,
+  :global(.hero.is-paused) .hero__drop {
+    animation-play-state: paused;
+  }
   .hero__sheen {
     position: absolute;
     inset: 0;
@@ -447,6 +451,24 @@ const heroName = heroProduct.name[lang];
     width: clamp(260px, 25vw, 340px);
     flex: none;
   }
+  /* On desktop the rail is pinned, so the whole section must fit under the header. */
+  @media (min-width: 1025px) {
+    .featured {
+      padding-block: clamp(32px, 5vh, 56px);
+    }
+    .featured__head {
+      margin-block-end: clamp(20px, 3vh, 32px);
+    }
+    .featured__head .section-head {
+      gap: 10px;
+    }
+    .featured__head .h-display {
+      font-size: var(--fs-2);
+    }
+    .featured__track > li {
+      width: clamp(220px, min(24vw, calc((100svh - 480px) / 1.1)), 340px);
+    }
+  }
   .featured__more a {
     display: grid;
     place-content: center;
@@ -518,9 +540,15 @@ const heroName = heroProduct.name[lang];
     display: grid;
     grid-template-columns: 1fr 1.1fr;
     gap: clamp(32px, 6vw, 96px);
-    min-height: 100vh;
     align-items: center;
     padding-block: var(--section);
+  }
+  /* pinned on desktop: keep it within one screen */
+  @media (min-width: 1025px) {
+    .process__grid {
+      min-height: 100svh;
+      padding-block: clamp(40px, 7vh, 80px);
+    }
   }
   .process__aside {
     display: grid;
@@ -623,7 +651,6 @@ const heroName = heroProduct.name[lang];
   @media (max-width: 1024px) {
     .process__grid {
       grid-template-columns: 1fr;
-      min-height: 0;
     }
     .process__counter,
     .process :global(.process__petals) {
